@@ -37,6 +37,8 @@ Load the app **with** a dev token (BFF requires `Authorization: Bearer`):
 http://localhost:5173/?access_token=local-dev-opaque-token
 ```
 
+or `http://localhost:5173/?auth=local-dev-opaque-token` (same bootstrap; `access_token` wins if both are set).
+
 Vite proxies `/api/*` to the BFF. **`GET /api/v1/bitacora`** is protected by **`requireAuthMiddleware`**. By default (**`BITACORA_DATA_MODE=fixture`** or unset) it returns the canonical fixture; set **`BITACORA_DATA_MODE=integration`** and **`BITACORA_UPSTREAM_BASE_URL`** to exercise real upstream normalization (see README). **`GET /health`** (liveness) and **`GET /ready`** (readiness, 200 vs 503) are unauthenticated—see README.
 
 Set env vars from `.env.example` (e.g. **`PEGASUS_AUTH_DISABLED=true`** for local dev without Pegasus HTTP).
@@ -45,7 +47,7 @@ Set env vars from `.env.example` (e.g. **`PEGASUS_AUTH_DISABLED=true`** for loca
 
 - **Fixture mode:** BFF reads `fixtures/bitacora-canonical.json` (or `FIXTURE_PATH`) **after** auth succeeds.
 - **Integration mode:** BFF fetches upstream raw JSON, normalizes to the same canonical shape, then responds.
-- **Query token:** `access_token` is parsed safely, stored **in memory only**, stripped from the URL when possible.
+- **Query token:** `access_token` or `auth` is parsed safely (`access_token` preferred if both), stored **in memory only**, stripped from the URL when possible.
 - **No** OAuth redirect; **no** default `localStorage` bearer storage.
 
 ## Tests

@@ -16,7 +16,7 @@ Items that **need confirmation from the Pegasus team** or that **this repo does 
 
 3. **`{{auth}}` in list vs detail:** `loadEAppsSelector` does **not** substitute `{{auth}}`, while `getDetail` (view `extapps`) **does**. Is the OPEN button in the grid supposed to receive a token-free URL, or is this an oversight? **Risk:** embedded apps that require `{{auth}}` in the URL may break when opened from the selector list.
 
-4. **Exact query parameter naming:** **Resolved for this app contract** with live evidence from Pegasus custom apps (`include_token: true`, `token_name: "access_token"`). Keep `access_token` as the launch param for this app unless Pegasus installation config changes.
+4. **Exact query parameter naming:** **Runtime behavior varies.** Live iframe launches for this app have been observed with **`?auth=...`**. The SPA also supports **`?access_token=...`**; if both are present, **`access_token` takes precedence**. Pegasus `custom_apps.token_name` and templates should be treated as hints, not guarantees.
 
 5. **`GET /api/login` vs `Login` resource:** `rest/rest.py` mounts `Login` at `/login` under the Flask API root. Is the **public** path literally `/api/login` in your gateway? **Risk:** qualitas-style `GET …/api/login?auth=` may depend on **reverse proxy prefix** not visible here.
 
@@ -52,7 +52,7 @@ Items that **need confirmation from the Pegasus team** or that **this repo does 
 
 | Assumption | Risk |
 |------------|------|
-| `access_token` query param for Pegasus iframe | **Resolved for this app** by live `custom_apps` config (`token_name: "access_token"`). |
+| Query param for Pegasus iframe token | **Observed live:** `auth`; **also supported:** `access_token` (precedence documented in `README.md`). |
 | `Authorization: Bearer` on REST | **Medium** — REST parsers use **`Authenticate`** / **`auth`**. |
 | Grid OPEN always has a valid token in URL | **High** if `{{auth}}` not replaced in `loadEAppsSelector`. |
 | This `urls.py` is authoritative for all routes | **Medium** — many routes commented; prod may differ. |

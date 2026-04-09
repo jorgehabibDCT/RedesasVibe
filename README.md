@@ -14,8 +14,8 @@ Source of truth: `spec.md` v0.3, `plan.md`, `reference-findings.md`, `copy-vs-do
 
 ## Auth flow (current)
 
-1. **Optional** `access_token` in the query string (Pegasus / parent may append it when loading the iframe).
-2. The **SPA** parses it with `URLSearchParams` (no narrow regex), keeps the token **only in memory**, and **strips** `access_token` from the URL via `history.replaceState` when present.
+1. **Optional** session token in the query string as **`access_token`** and/or **`auth`** (live Pegasus iframe launches have been observed with `?auth=...`; the SPA also supports `?access_token=...` for demos and other integrations).
+2. The **SPA** parses with `URLSearchParams` (no narrow regex), prefers **`access_token`** when both are present, keeps the token **only in memory**, and **strips** the used query param(s) from the URL via `history.replaceState` when present.
 3. Every **`GET /api/v1/bitacora`** request sends **`Authorization: Bearer <opaque token>`**.
 4. The **BFF** runs **`requireAuthMiddleware`**: extracts Bearer, validates **opaque token shape**, then calls **`validatePegasusSession`** in `pegasusAuth.service.ts`.
 5. **What is real vs stubbed today**
@@ -33,15 +33,18 @@ Observed Pegasus custom-app wiring indicates launch via:
 - `/api/apps/pegasus2.0`
 - `custom_apps.path = "https://qservices.pegasusgateway.com/installations/"`
 - `custom_apps.include_token = true`
-- `custom_apps.token_name = "access_token"`
+- `custom_apps.token_name` may vary by deployment; **runtime iframe behavior** is authoritative.
 
-Expected iframe launch shape for this app:
+**Live iframe:** the token has been observed as **`?auth=<pegasus_user_token>`**. The SPA also accepts **`?access_token=...`** (e.g. local demo); if both appear, **`access_token` takes precedence**.
 
-`https://qservices.pegasusgateway.com/installations/?access_token=<pegasus_user_token>[&policy_incident=<id>]`
+Example launch shapes:
+
+- `https://qservices.pegasusgateway.com/installations/?auth=<pegasus_user_token>[&policy_incident=<id>]`
+- `https://qservices.pegasusgateway.com/installations/?access_token=<pegasus_user_token>[&policy_incident=<id>]`
 
 Handling in this repo:
 
-- **Frontend** captures `access_token` from URL query, stores it **in memory only**, strips it from the address bar, and sends it to the BFF as `Authorization: Bearer <token>`.
+- **Frontend** captures the token from **`access_token`** or **`auth`**, stores it **in memory only**, strips those query keys from the address bar, and sends it to the BFF as `Authorization: Bearer <token>`.
 - **BFF** validates that Bearer token server-side with Pegasus (`GET ${PEGASUS_SITE}/api/login?auth=...`) unless `PEGASUS_AUTH_DISABLED=true`.
 
 ### Bypass vs real Pegasus auth mode
@@ -59,9 +62,9 @@ On startup, the BFF emits a structured `bff_listen` log line with non-secret dia
 
 When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
 
-1. In Pegasus, click the custom app entry that opens `.../installations/?access_token=...`.
+1. In Pegasus, click the custom app entry that opens `.../installations/?auth=...` (or `?access_token=...` depending on config).
 2. In browser DevTools:
-   - Confirm the first URL includes `access_token`, then the SPA strips it from the address bar.
+   - Confirm the first URL includes `auth` or `access_token`, then the SPA strips it from the address bar.
    - Confirm API calls to `/api/v1/bitacora` include `Authorization: Bearer ...`.
 3. In Render logs (BFF), inspect auth events for the same request window:
    - Success path: `event=auth_success`, `authMode=pegasus_http`.
@@ -162,7 +165,7 @@ Open:
 http://localhost:5173/?access_token=local-dev-opaque-token
 ```
 
-Without `access_token`, you will see the **standalone** message. With a token, **`GET /api/v1/bitacora`** returns the canonical bitácora document (fixture or normalized upstream, depending on **`BITACORA_DATA_MODE`** — see below).
+Without `access_token` or `auth` in the URL, you will see the **standalone** message. With a token, **`GET /api/v1/bitacora`** returns the canonical bitácora document (fixture or normalized upstream, depending on **`BITACORA_DATA_MODE`** — see below).
 
 ## Demo runbook
 
@@ -171,8 +174,8 @@ Use this path for a **stable live demo** (predictable data, no Pegasus dependenc
 | Item | Recommendation |
 |------|------------------|
 | **Mode** | **Fixture** — `BITACORA_DATA_MODE=fixture` or unset (default). Ensures `fixtures/bitacora-canonical.json` is served after auth. |
-| **Auth for local demo** | **`PEGASUS_AUTH_DISABLED=true`** (default in `.env.example`) so the BFF does not call Pegasus HTTP. Still send a **non-empty** opaque token from the browser (`access_token`) so the SPA and BFF follow the same code path as production. |
-| **URL** | **`http://localhost:5173/?access_token=demo-local-token`** (or any opaque string; not validated against Pegasus when auth is disabled). |
+| **Auth for local demo** | **`PEGASUS_AUTH_DISABLED=true`** (default in `.env.example`) so the BFF does not call Pegasus HTTP. Still send a **non-empty** opaque token from the browser (`?access_token=` or `?auth=`) so the SPA and BFF follow the same code path as production. |
+| **URL** | **`http://localhost:5173/?access_token=demo-local-token`** or **`http://localhost:5173/?auth=demo-local-token`** (any opaque string; not validated against Pegasus when auth is disabled). |
 
 **Commands (two terminals from repo root, after `npm install` and `npm run build:shared`):**
 
@@ -233,12 +236,12 @@ The BFF is **not** deployed with this app. The SPA is built as a static Vite bun
 |----------|----------|---------|
 | **`VITE_API_BASE_URL`** | **Yes** for preview/production on Vercel | Public HTTPS origin of the hosted BFF (scheme + host, **no** trailing slash, **no** `/api` suffix). Example: `https://bff.example.com`. Inlined at **build** time. |
 
-**Do not** prefix BFF-only secrets with `VITE_` — only values that must be visible to the browser belong here. The session token still comes from **`access_token`** in the URL (then memory); that flow is unchanged.
+**Do not** prefix BFF-only secrets with `VITE_` — only values that must be visible to the browser belong here. The session token still comes from **`access_token`** or **`auth`** in the URL (then memory); that flow is unchanged.
 
 ### Local development (unchanged)
 
 - Leave **`VITE_API_BASE_URL`** unset (or empty). The SPA uses same-origin paths such as **`/api/v1/bitacora`**, and the Vite dev server **proxies** `/api` to **`http://localhost:3000`** (see `apps/web/vite.config.ts`).
-- Query parameters **`access_token`**, **`policy_incident`**, etc. behave the same locally and when deployed.
+- Query parameters **`access_token`**, **`auth`**, **`policy_incident`**, etc. behave the same locally and when deployed.
 
 ### Vercel preview and production
 

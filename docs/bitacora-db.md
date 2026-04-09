@@ -42,8 +42,8 @@ Set **`BITACORA_DATA_MODE=db`** and **`DATABASE_URL`**. The BFF serves **`GET /a
 
 The JSON shape is still **`BitacoraDocument`** (mapped from normalized columns via `mapDbCaseRowToBitacoraDocument` in `@redesas-lite/shared`).
 
-**SPA:** pass **`policy_incident`** in the embed URL together with **`access_token`**, e.g.  
-`http://localhost:5173/?access_token=…&policy_incident=040003375123`  
+**SPA:** pass **`policy_incident`** in the embed URL together with a session token as **`access_token`** and/or **`auth`** (live Pegasus often uses `?auth=...`; if both are present, the SPA prefers `access_token`), e.g.  
+`http://localhost:5173/?auth=…&policy_incident=040003375123`  
 The web app forwards it as **`GET /api/v1/bitacora?policy_incident=...`**.
 
 **Fixture mode** (`BITACORA_DATA_MODE` unset or `fixture`) is unchanged for demos and does not use the database.
