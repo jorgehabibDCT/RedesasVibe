@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "environment": "production"
+  },
+  "vehicle": {
+    "deviceId": 472568141300009,
+    "vin": "3N6CD35A6TK810425",
+    "year": 2026,
+    "licensePlate": "KV2987A",
+    "make": "NISSAN                 ",
+    "model": "CS NISSAN NP300 CH CAB 2P L4 2.5L V",
+    "color": "N/A"
+  },
+  "policy": {
+    "insuredName": "TIP AUTO S.A. DE C.V. SOFOM E.N.R.",
+    "incidentType": "Otro",
+    "reporterName": "OSIRI FERNANDO LOPEZ CORREA",
+    "reporterPhone": "5524544400",
+    "driverName": "ALEJANDRO ESPINOZA GARCIA",
+    "policyNumber": "043130028769",
+    "incidentId": "0501227",
+    "validFrom": "10/02/2026",
+    "validTo": "10/02/2027",
+    "insuredAmount": 505305,
+    "agentCode": "43326"
+  },
+  "registrationOutcome": {
+    "overallStatus": "success",
+    "success": true,
+    "message": "Vehicle theft incident reported successfully",
+    "deviceId": "472568141300009",
+    "vin": "3N6CD35A6TK810425",
+    "plates": "KV2987A",
+    "vehicleStatus": "registered",
+    "emergencyContact": {
+      "fullName": "OSIRI FERNANDO LOPEZ CORREA",
+      "phone": "5524544400"
+    }
+  }
+}

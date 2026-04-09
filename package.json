@@ -1,0 +1,24 @@
+{
+  "name": "redesas-lite-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @redesas-lite/shared && npm run build -w @redesas-lite/web && npm run build -w @redesas-lite/bff",
+    "build:shared": "npm run build -w @redesas-lite/shared",
+    "test": "npm run test -w @redesas-lite/shared && npm run test -w @redesas-lite/bff && npm run test -w @redesas-lite/web",
+    "test:web": "npm run test -w @redesas-lite/web",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "dev:web": "npm run dev -w @redesas-lite/web",
+    "dev:bff": "npm run dev -w @redesas-lite/bff",
+    "demo:bff": "BITACORA_DATA_MODE=fixture PEGASUS_AUTH_DISABLED=true npm run dev -w @redesas-lite/bff",
+    "demo:web": "npm run dev -w @redesas-lite/web",
+    "bulk-ingest:theft": "npm run bulk-ingest:theft -w @redesas-lite/bff"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}

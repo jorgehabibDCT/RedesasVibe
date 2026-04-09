@@ -1,0 +1,2419 @@
+[
+  {
+    "payload": {
+      "device_id": 475375540000009,
+      "vehicle_vin": "1HGBH41JXMN109186",
+      "vehicle_year": 2023,
+      "vehicle_plates": "ABC-123-D",
+      "vehicle_make": "Toyota",
+      "vehicle_model": "Corolla LE",
+      "vehicle_color": "Blanco Perlado",
+      "insured_name": "Carlos López",
+      "incident_type": "Otro",
+      "reporter_name": "Carlos López",
+      "reporter_phone": "+525598765432",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475375540000009",
+          "vin": "1HGBH41JXMN109186",
+          "plates": "ABC-123-D",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "Carlos López",
+            "phone": "+525598765432"
+          }
+        }
+      }
+    }
+  },
+  {
+    "payload": {
+      "device_id": 475375870000009,
+      "vehicle_vin": "1ABC23456789DEF030",
+      "vehicle_year": 2022,
+      "vehicle_plates": "ABC124",
+      "vehicle_make": "FORD",
+      "vehicle_model": "FIESTA",
+      "vehicle_color": "ROJO",
+      "insured_name": "elizabeth garcia medina",
+      "incident_type": "Otro",
+      "reporter_name": "Carlos López",
+      "reporter_phone": "5551234567",
+      "driver_name": "",
+      "policy_incident": "9876543211",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475375870000009",
+          "vin": "1ABC23456789DEF030",
+          "plates": "ABC124",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "Carlos López",
+            "phone": "5551234567"
+          }
+        }
+      }
+    }
+  },
+  {
+    "payload": {
+      "device_id": 475376200000008,
+      "vehicle_vin": "AERHSESTEJTRJRTRH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "",
+      "incident_type": "Otro",
+      "reporter_name": "NUEVA PERSONA",
+      "reporter_phone": "",
+      "driver_name": "",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"insured_name\" is not allowed to be empty, \"reporter_phone\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475376860000009,
+      "vehicle_vin": "RARHGESHGESDHSEH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475376860000009",
+          "vin": "RARHGESHGESDHSEH",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475376860000009,
+      "vehicle_vin": "RARHGESHGESDHSEH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375124",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18568"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "Failed to register device: DeviceManager service is unavailable"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475376860000009,
+      "vehicle_vin": "RARHGESHGESDHSEH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "Failed to register device: DeviceManager service is unavailable"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475376860000009,
+      "vehicle_vin": "RARHGESHGESDHSEH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375124",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18568"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475376860000009",
+          "vin": "RARHGESHGESDHSEH",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475377850000009,
+      "vehicle_vin": "RARHGESHGESDHSEA",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375124",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18568"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475377850000009",
+          "vin": "RARHGESHGESDHSEA",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475378180000008,
+      "vehicle_vin": "RARHGESHGESDHSEB",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375189",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18568"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475378180000008",
+          "vin": "RARHGESHGESDHSEB",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475337920000009,
+      "vehicle_vin": "ZTJETZJTDETE5YE5Y8",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475337920000009",
+          "vin": "ZTJETZJTDETE5YE5Y8",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475337920000009,
+      "vehicle_vin": "ZTJETZJTDETE5YE5Y8",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475337920000009",
+          "vin": "ZTJETZJTDETE5YE5Y8",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475337920000009,
+      "vehicle_vin": "ZTJETZJTDETE5YE5Y8",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475337920000009",
+          "vin": "ZTJETZJTDETE5YE5Y8",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475337920000009,
+      "vehicle_vin": "ZTJETZJTDETE5YE5Y8",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475337920000009",
+          "vin": "ZTJETZJTDETE5YE5Y8",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "SP",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 472566415300002,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "Failed to register device: Failed to register device: Invalid credentials for DeviceManager API"
+        }
+      }
+    },
+    "env": "production"
+  },
+  {
+    "payload": {
+      "device_id": 452821774214326,
+      "vehicle_vin": "RARHGESHGESDHSXA",
+      "vehicle_year": 2022,
+      "vehicle_plates": "ABC123",
+      "vehicle_make": "FORD",
+      "vehicle_model": "FIESTA",
+      "vehicle_color": "ROJO",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "1",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "452821774214326",
+          "vin": "RARHGESHGESDHSXA",
+          "plates": "ABC123",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP",
+            "phone": "7777777777"
+          }
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475379170000008,
+      "vehicle_vin": "RARHGESHGESDHJJJ",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "",
+      "vehicle_color": "",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350725",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"vehicle_model\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475379500000009,
+      "vehicle_vin": "RARHGESHGESDHkkk",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "",
+      "vehicle_color": "",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350800",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "vehicle_vin must contain 8-18 alphanumeric characters and only use valid VIN characters (A-H, J-N, P-R, Z, 0-9, excluding I, O, Q), \"vehicle_model\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475379830000000,
+      "vehicle_vin": "RARHGESHGESDHIJK",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "",
+      "vehicle_color": "",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350804",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "vehicle_vin must contain 8-18 alphanumeric characters and only use valid VIN characters (A-H, J-N, P-R, Z, 0-9, excluding I, O, Q), \"vehicle_model\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475380820000000,
+      "vehicle_vin": "RARHGESHGESDHZZZ",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "",
+      "vehicle_color": "",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350833",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"vehicle_model\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475378840000000,
+      "vehicle_vin": "VSSABHKM7PR102039",
+      "vehicle_year": 2023,
+      "vehicle_plates": "RBP385E",
+      "vehicle_make": "CUPRA",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "4",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475378840000000,
+      "vehicle_vin": "VSSABHKM7PR102039",
+      "vehicle_year": 2023,
+      "vehicle_plates": "",
+      "vehicle_make": "CUPRA",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "5",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"vehicle_plates\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 475381170000004,
+      "vehicle_vin": "VSSABHKM7PR105044",
+      "vehicle_year": 2023,
+      "vehicle_plates": "",
+      "vehicle_make": "CUPRA",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "1",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "\"vehicle_plates\" is not allowed to be empty, \"vehicle_color\" is not allowed to be empty"
+        }
+      }
+    },
+    "env": "qa"
+  },
+  {
+    "payload": {
+      "device_id": 867698041094437,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ TEST ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2025",
+      "policy_end_date": "16/03/2025",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041094437",
+          "vin": "RARHGESHGESDHSEG",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 22
+  },
+  {
+    "payload": {
+      "device_id": 867698041102933,
+      "vehicle_vin": "RARHGESHGESDHSEF",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ TEST ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2025",
+      "policy_end_date": "16/03/2025",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041102933",
+          "vin": "RARHGESHGESDHSEF",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 23
+  },
+  {
+    "payload": {
+      "device_id": 475337920000009,
+      "vehicle_vin": "ZTJETZJTDETE5YE5Y8",
+      "vehicle_year": 2023,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T 680 CUMMINS ISX 6X4 4",
+      "vehicle_color": "N/A",
+      "insured_name": "SONIA JUDITH SILVA ESCAREÑO",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_incident": "040003942637",
+      "policy_start_date": "31/01/2024",
+      "policy_end_date": "31/01/2025",
+      "insured_amount": 2848000,
+      "agent_code": "05530",
+      "location": "18.95113,-99.25213",
+      "policy_number": "2846131426",
+      "contacts": [
+        {
+          "tipoContacto": "Instalación",
+          "tipoTelefono": "Celular",
+          "contacto": "JORGE HABIB",
+          "numero": "7863577440",
+          "lada": "786",
+          "extension": "",
+          "email": "jorge.habib@digitalcomtech.com"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 24
+  },
+  {
+    "payload": {
+      "device_id": 865326068596082,
+      "vehicle_vin": "RARHGESHGESDHSET",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ TEST ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2025",
+      "policy_end_date": "16/03/2025",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "865326068596082",
+          "vin": "RARHGESHGESDHSET",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 49
+  },
+  {
+    "payload": {
+      "device_id": 865326068596082,
+      "vehicle_vin": "RARHGESHGESDHSEP",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ TEST ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2025",
+      "policy_end_date": "16/03/2025",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "865326068596082",
+          "vin": "RARHGESHGESDHSEP",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "env": "qa",
+    "_recovered": true,
+    "_source_line": 50
+  },
+  {
+    "payload": {
+      "device_id": 472566415300002,
+      "vehicle_vin": "RARHGESHGESDHSEG",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "Failed to register device: Failed to register device: Invalid credentials for DeviceManager API"
+        }
+      }
+    },
+    "env": "production",
+    "_recovered": true,
+    "_source_line": 53
+  },
+  {
+    "payload": {
+      "device_id": 472566441700001,
+      "vehicle_vin": "RARHGESHGESDHSET",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_incident": "040003375123",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472566441700001",
+          "vin": "RARHGESHGESDHSET",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ",
+            "phone": "8126378112"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 56
+  },
+  {
+    "payload": {
+      "device_id": 867698041102933,
+      "vehicle_vin": "RARHGESHGESDHSEH",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V. TEST",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ TEST ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350730",
+      "policy_start_date": "16/03/2025",
+      "policy_end_date": "16/03/2025",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "867698041102933",
+          "vin": "RARHGESHGESDHSEH",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 57
+  },
+  {
+    "payload": {
+      "device_id": 863238070748324,
+      "vehicle_vin": "3AKJGLDR5HSHX9254",
+      "vehicle_year": 2017,
+      "vehicle_plates": "89AN8Z",
+      "vehicle_make": "FREIGHTLINER            ",
+      "vehicle_model": "TR FREIGHTLINER CASCADIA DD15 475HP",
+      "vehicle_color": "N/A",
+      "insured_name": "MANUEL ANGEL MARTINEZ AVILA",
+      "incident_type": "Otro",
+      "reporter_name": "HECTOR MARTINEZ HERNANDEZ",
+      "reporter_phone": "5575038420",
+      "driver_name": "HECTOR MARTINEZ HERNANDEZ",
+      "policy_incident": "046290024872",
+      "policy_start_date": "03/11/2025",
+      "policy_end_date": "03/11/2026",
+      "insured_amount": 2673000,
+      "agent_code": "12980",
+      "location": "19.64922,-97.24874",
+      "policy_number": "046290024872",
+      "contacts": [
+        {
+          "tipoContacto": "Instalación",
+          "tipoTelefono": "Fijo",
+          "contacto": "ARTURO MARTINEZ",
+          "numero": "7761076118",
+          "lada": "77",
+          "extension": "",
+          "email": "arturo_martz@hotmail.com"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 58
+  },
+  {
+    "payload": {
+      "device_id": 863238070726882,
+      "vehicle_vin": "3BYPA4038HH012102",
+      "vehicle_year": 2017,
+      "vehicle_plates": "30UA4D",
+      "vehicle_make": "REMOLQUE                ",
+      "vehicle_model": "RM PLATAFORMA 3 EJES 40 (NAC)",
+      "vehicle_color": "N/A",
+      "insured_name": "MANUEL ANGEL MARTINEZ AVILA",
+      "incident_type": "Otro",
+      "reporter_name": "HECTOR MARTINEZ HERNANDEZ",
+      "reporter_phone": "5575038420",
+      "driver_name": "HECTOR MARTINEZ HERNANDEZ",
+      "policy_incident": "046290024872",
+      "policy_start_date": "03/11/2025",
+      "policy_end_date": "03/11/2026",
+      "insured_amount": 1446700,
+      "agent_code": "12980",
+      "location": "20.10224,-98.39669",
+      "policy_number": "046290024872",
+      "contacts": [
+        {
+          "tipoContacto": "Instalación",
+          "tipoTelefono": "Fijo",
+          "contacto": "ARTURO MARTINEZ",
+          "numero": "7761076118",
+          "lada": "77",
+          "extension": "",
+          "email": "arturo_martz@hotmail.com"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 59
+  },
+  {
+    "payload": {
+      "device_id": 452821774214326,
+      "vehicle_vin": "RARHGESHGESDHSXA",
+      "vehicle_year": 2022,
+      "vehicle_plates": "ABC123",
+      "vehicle_make": "FORD",
+      "vehicle_model": "FIESTA",
+      "vehicle_color": "ROJO",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "2",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890",
+      "location": "4.31095,-75.10073",
+      "contacts": [
+        {
+          "name": "MARÍA FERNÁNDEZ",
+          "phone": [
+            "5551234567"
+          ],
+          "email": "maria.fernandez@example.com",
+          "contact_type": "installation"
+        },
+        {
+          "name": "JUAN GARCÍA",
+          "phone": [
+            "5587654321"
+          ],
+          "email": "juang@example.com",
+          "contact_type": "emergency"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 62
+  },
+  {
+    "payload": {
+      "device_id": 472566550600000,
+      "vehicle_vin": "VSSABHKM7PR102039",
+      "vehicle_year": 2023,
+      "vehicle_plates": "RBP385E",
+      "vehicle_make": "CUPRA                   ",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "N/A",
+      "insured_name": "JORGE ESPINOSA RAMIREZ",
+      "incident_type": "Otro",
+      "reporter_name": "JORGE ESPINOSA RAMIREZ",
+      "reporter_phone": "5612023893",
+      "driver_name": "JORGE ESPINOSA RAMIREZ",
+      "policy_number": "040890162452",
+      "policy_incident": "2093536",
+      "policy_start_date": "03/12/2025",
+      "policy_end_date": "03/12/2026",
+      "insured_amount": 852000,
+      "agent_code": "65187"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472566550600000",
+          "vin": "VSSABHKM7PR102039",
+          "plates": "RBP385E",
+          "status": "registered"
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 63
+  },
+  {
+    "payload": {
+      "device_id": 472566619900003,
+      "vehicle_vin": "RARHGESHGESDHGGG",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350727",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472566619900003",
+          "vin": "RARHGESHGESDHGGG",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 64
+  },
+  {
+    "payload": {
+      "device_id": 475379170000008,
+      "vehicle_vin": "RARHGESHGESDHJJJ",
+      "vehicle_year": 2018,
+      "vehicle_plates": "NA",
+      "vehicle_make": "ISUZU",
+      "vehicle_model": "RELF 300",
+      "vehicle_color": "BLANCO",
+      "insured_name": "TRANSPORTES S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "MARIA BARCENAS LOPEZ",
+      "reporter_phone": "8126378112",
+      "driver_name": "LUIS CASTILLO PEREZ ",
+      "policy_number": "040003375123",
+      "policy_incident": "0350728",
+      "policy_start_date": "16/03/2019",
+      "policy_end_date": "16/03/2020",
+      "insured_amount": 615600,
+      "agent_code": "18567"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475379170000008",
+          "vin": "RARHGESHGESDHJJJ",
+          "plates": "NA",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "MARIA BARCENAS LOPEZ"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 65
+  },
+  {
+    "payload": {
+      "device_id": 475381170000004,
+      "vehicle_vin": "VSSABHKM7PR105044",
+      "vehicle_year": 2023,
+      "vehicle_plates": "N/A",
+      "vehicle_make": "CUPRA",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "N/A",
+      "insured_name": "CARLOS GUILLERMO RODRÍGUEZ HERNÁNDEZ",
+      "incident_type": "Otro",
+      "reporter_name": "PP",
+      "reporter_phone": "7777777777",
+      "driver_name": "PP PP PP",
+      "policy_number": "9876543210",
+      "policy_incident": "1",
+      "policy_start_date": "01/01/2022",
+      "policy_end_date": "01/01/2023",
+      "insured_amount": 500000,
+      "agent_code": "7890"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "475381170000004",
+          "vin": "VSSABHKM7PR105044",
+          "plates": "N/A",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "PP"
+          }
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 83
+  },
+  {
+    "payload": {
+      "device_id": 863427042249590,
+      "vehicle_vin": "1XP4D49X7DD190812",
+      "vehicle_year": 2013,
+      "vehicle_plates": "31BC5G",
+      "vehicle_make": "TRACTOCAMION            ",
+      "vehicle_model": "TR CAMION LEGALIZADO TIPO TRACTOCAM",
+      "vehicle_color": "ROJO",
+      "insured_name": "ECO REDUREC SA DE CV",
+      "incident_type": "Otro",
+      "reporter_name": "ADOLFO MONTES CALDERON",
+      "reporter_phone": "2474751475",
+      "driver_name": "ADOLFO MONTES CALDERON",
+      "policy_number": "046300030978",
+      "policy_incident": "2195827",
+      "policy_start_date": "09/04/2025",
+      "policy_end_date": "09/04/2026",
+      "insured_amount": 2225000,
+      "agent_code": "86655",
+      "location": "19.53561,-97.28939",
+      "contacts": [
+        {
+          "name": "AMERICA PAVON HERNANDEZ",
+          "phone": [
+            "2461453482"
+          ],
+          "email": "ecoredurec@hotmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 84
+  },
+  {
+    "payload": {
+      "device_id": 863427042249590,
+      "vehicle_vin": "1XP4D49X7DD190812",
+      "vehicle_year": 2013,
+      "vehicle_plates": "31BC5G",
+      "vehicle_make": "TRACTOCAMION            ",
+      "vehicle_model": "TR CAMION LEGALIZADO TIPO TRACTOCAM",
+      "vehicle_color": "ROJO",
+      "insured_name": "ECO REDUREC SA DE CV",
+      "incident_type": "Otro",
+      "reporter_name": "ADOLFO MONTES CALDERON",
+      "reporter_phone": "2474751475",
+      "driver_name": "ADOLFO MONTES CALDERON",
+      "policy_number": "046300030978",
+      "policy_incident": "2195827",
+      "policy_start_date": "09/04/2025",
+      "policy_end_date": "09/04/2026",
+      "insured_amount": 2225000,
+      "agent_code": "86655",
+      "location": "19.5356,-97.28939",
+      "contacts": [
+        {
+          "name": "AMERICA PAVON HERNANDEZ",
+          "phone": [
+            "2461453482"
+          ],
+          "email": "ecoredurec@hotmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 85
+  },
+  {
+    "payload": {
+      "device_id": 863427042249590,
+      "vehicle_vin": "1XP4D49X7DD190812",
+      "vehicle_year": 2013,
+      "vehicle_plates": "31BC5G",
+      "vehicle_make": "TRACTOCAMION            ",
+      "vehicle_model": "TR CAMION LEGALIZADO TIPO TRACTOCAM",
+      "vehicle_color": "ROJO",
+      "insured_name": "ECO REDUREC SA DE CV",
+      "incident_type": "Otro",
+      "reporter_name": "ADOLFO MONTES CALDERON",
+      "reporter_phone": "2474751475",
+      "driver_name": "ADOLFO MONTES CALDERON",
+      "policy_number": "046300030978",
+      "policy_incident": "2195827",
+      "policy_start_date": "09/04/2025",
+      "policy_end_date": "09/04/2026",
+      "insured_amount": 2225000,
+      "agent_code": "86655",
+      "location": "19.53559,-97.28939",
+      "contacts": [
+        {
+          "name": "AMERICA PAVON HERNANDEZ",
+          "phone": [
+            "2461453482"
+          ],
+          "email": "ecoredurec@hotmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 86
+  },
+  {
+    "payload": {
+      "device_id": 863427042249590,
+      "vehicle_vin": "1XP4D49X7DD190812",
+      "vehicle_year": 2013,
+      "vehicle_plates": "31BC5G",
+      "vehicle_make": "TRACTOCAMION            ",
+      "vehicle_model": "TR CAMION LEGALIZADO TIPO TRACTOCAM",
+      "vehicle_color": "ROJO",
+      "insured_name": "ECO REDUREC SA DE CV",
+      "incident_type": "Otro",
+      "reporter_name": "ADOLFO MONTES CALDERON",
+      "reporter_phone": "2474751475",
+      "driver_name": "ADOLFO MONTES CALDERON",
+      "policy_number": "046300030978",
+      "policy_incident": "2195827",
+      "policy_start_date": "09/04/2025",
+      "policy_end_date": "09/04/2026",
+      "insured_amount": 2225000,
+      "agent_code": "86655",
+      "location": "19.53559,-97.28939",
+      "contacts": [
+        {
+          "name": "AMERICA PAVON HERNANDEZ",
+          "phone": [
+            "2461453482"
+          ],
+          "email": "ecoredurec@hotmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 87
+  },
+  {
+    "payload": {
+      "device_id": 472566778300003,
+      "vehicle_vin": "3AKJHHDRXJSJN2174",
+      "vehicle_year": 2018,
+      "vehicle_plates": "SP",
+      "vehicle_make": "TRACTOCAMION            ",
+      "vehicle_model": "TR CAMION LEGALIZADO TIPO TRACTOCAM",
+      "vehicle_color": "N/A",
+      "insured_name": "ISRAEL ENRIQUE FLORES FLORES",
+      "incident_type": "Otro",
+      "reporter_name": "ISRAEL ENRIQUE FLORES FLORES",
+      "reporter_phone": "7354945526",
+      "driver_name": "FABIAN SANCHEZ SANTILLAN",
+      "policy_number": "046330134625",
+      "policy_incident": "2225604",
+      "policy_start_date": "26/11/2025",
+      "policy_end_date": "26/11/2026",
+      "insured_amount": 295000,
+      "agent_code": "87152",
+      "contacts": [
+        {
+          "name": "ISRAEL ENRIQUE FLORES FLORES",
+          "phone": [
+            "5581827988"
+          ],
+          "email": "flores.israel.flores@gmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 88
+  },
+  {
+    "payload": {
+      "device_id": 472567356100005,
+      "vehicle_vin": "3WKZD4OX5SF555743",
+      "vehicle_year": 2025,
+      "vehicle_plates": "15BG1N",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T 880 6X4 MX-13 E5 510H",
+      "vehicle_color": "N/A",
+      "insured_name": "GRUPO HC ESTÚDIOS Y ECOSERVICIOS AMBIENTALES SA DE CV",
+      "incident_type": "Otro",
+      "reporter_name": "GILBERTO GUERRERO LOPEZ",
+      "reporter_phone": "5525681157",
+      "driver_name": "GILBERTO GUERRERO LOPEZ",
+      "policy_number": "041090222083",
+      "policy_incident": "0208820",
+      "policy_start_date": "23/12/2025",
+      "policy_end_date": "23/12/2026",
+      "insured_amount": 3494850,
+      "agent_code": "87094"
+    },
+    "result": {
+      "status": "failed",
+      "result": {
+        "success": false,
+        "error": {
+          "message": "vehicle_vin must contain 8-18 alphanumeric characters and only use valid VIN characters (A-H, J-N, P-R, Z, 0-9"
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 89
+  },
+  {
+    "payload": {
+      "device_id": 472566550600000,
+      "vehicle_vin": "VSSABHKM7PR102039",
+      "vehicle_year": 2023,
+      "vehicle_plates": "RBP385E",
+      "vehicle_make": "CUPRA                   ",
+      "vehicle_model": "CU CUPRA FORMENTOR VZ 5P L4 2.0T BA",
+      "vehicle_color": "GRIS OXFORD",
+      "insured_name": "JORGE ESPINOSA RAMIREZ",
+      "incident_type": "Otro",
+      "reporter_name": "JORGE ESPINOSA RAMIREZ",
+      "reporter_phone": "5612023893",
+      "driver_name": "JORGE ESPINOSA RAMIREZ",
+      "policy_number": "040890162452",
+      "policy_incident": "0234361",
+      "policy_start_date": "03/12/2025",
+      "policy_end_date": "03/12/2026",
+      "insured_amount": 2515000,
+      "agent_code": "65187"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472566550600000",
+          "vin": "VSSABHKM7PR102039",
+          "plates": "RBP385E",
+          "status": "registered"
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 90
+  },
+  {
+    "payload": {
+      "device_id": 869671071063703,
+      "vehicle_vin": "1HGRS3845PL904737",
+      "vehicle_year": 2023,
+      "vehicle_plates": "GJV504G",
+      "vehicle_make": "HONDA                   ",
+      "vehicle_model": "HONDA CR-V TURBO PLUS 5P L4 1.5L AB",
+      "vehicle_color": "PLATA",
+      "insured_name": "TAHDZIU RUBEN HERNANDEZ CEBADA",
+      "incident_type": "Otro",
+      "reporter_name": "BERENICE MUZQUIZ",
+      "reporter_phone": "4771218636",
+      "driver_name": "BERENICE MUZQUIZ NAVARRO LOPEZ",
+      "policy_number": "040950281715",
+      "policy_incident": "0239927",
+      "policy_start_date": "21/11/2025",
+      "policy_end_date": "21/11/2026",
+      "insured_amount": 353000,
+      "agent_code": "41306",
+      "location": "20.50348,-100.82909",
+      "contacts": [
+        {
+          "name": "Tahdziu Hernández",
+          "phone": [
+            "4772528414"
+          ],
+          "email": "tahdziuhernandez@gmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 91
+  },
+  {
+    "payload": {
+      "device_id": 472567484500001,
+      "vehicle_vin": "3WKYD49X1MF520554",
+      "vehicle_year": 2021,
+      "vehicle_plates": "285FF3",
+      "vehicle_make": "KENWORTH",
+      "vehicle_model": "TR KENWORTH T680 CUMMINS ISX 6X4 45",
+      "vehicle_color": "N/A",
+      "insured_name": "SE FREIGHT DE MEXICO, S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "DANIEL HERNANDEZ",
+      "reporter_phone": "4441270610",
+      "driver_name": "NESTOR BARRON MARTINEZ",
+      "policy_number": "043170067958",
+      "policy_incident": "0262163",
+      "policy_start_date": "03/02/2026",
+      "policy_end_date": "03/02/2027",
+      "insured_amount": 328000,
+      "agent_code": "85275",
+      "contacts": [
+        {
+          "name": "Biridiana Elizabeth Garcia Ortiz",
+          "phone": [
+            "3312784131"
+          ],
+          "email": "admon_pacleasegdl@masseguros.mx",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 92
+  },
+  {
+    "payload": {
+      "device_id": 863238070748662,
+      "vehicle_vin": "3WKYD40X4TF501007",
+      "vehicle_year": 2026,
+      "vehicle_plates": "91BL4A",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T680 NEX GEN ISXE6/X15E",
+      "vehicle_color": "N/A",
+      "insured_name": "GRUPO MINERO HONEY, S.A. DE C. V.",
+      "incident_type": "Otro",
+      "reporter_name": "ERICK MARTINEZ IBARRA",
+      "reporter_phone": "7751448406",
+      "driver_name": "JUAN ORTIZ ROSALES",
+      "policy_number": "043170064373",
+      "policy_incident": "0273516",
+      "policy_start_date": "30/09/2025",
+      "policy_end_date": "30/09/2026",
+      "insured_amount": 2438000,
+      "agent_code": "85226",
+      "location": "19.3829,-98.17863",
+      "contacts": [
+        {
+          "name": "GABRIEL ESPINOZA GALVEZ",
+          "phone": [
+            "2225583292"
+          ],
+          "email": "asureste@masseguros.mx",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 93
+  },
+  {
+    "payload": {
+      "device_id": 863238078098714,
+      "vehicle_vin": "MR0CX3DD1T1363544",
+      "vehicle_year": 2026,
+      "vehicle_plates": "GP3152D",
+      "vehicle_make": "TOYOTA                  ",
+      "vehicle_model": "TY TOYOTA HILUX DOBLE CABINA MLM 4P",
+      "vehicle_color": "GRIS",
+      "insured_name": "DHELTA QUALITY SOLUTIONS",
+      "incident_type": "Otro",
+      "reporter_name": "ISAAC GARCIA",
+      "reporter_phone": "4613423719",
+      "driver_name": "LUIS ALFREDO ESCAMILLA PEREZ",
+      "policy_number": "040360019084",
+      "policy_incident": "0275606",
+      "policy_start_date": "14/01/2026",
+      "policy_end_date": "14/01/2027",
+      "insured_amount": 1673748,
+      "agent_code": "09711",
+      "location": "20.59295,-100.72104",
+      "contacts": [
+        {
+          "name": "JOSE ANTONIO RODRIGUEZ ROMERO",
+          "phone": [
+            "4423282903"
+          ],
+          "email": "ANTONIO.RODRIGUEZ@DHELTAQS.COM.MX",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 94
+  },
+  {
+    "payload": {
+      "device_id": 863427042285495,
+      "vehicle_vin": "3WKYD40X4SF564722",
+      "vehicle_year": 2025,
+      "vehicle_plates": "22BG5F",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T-680 CUMMINS X15 605HP",
+      "vehicle_color": "N/A",
+      "insured_name": "LEONARDO ISLAS AVILA",
+      "incident_type": "Otro",
+      "reporter_name": "JORGE ISLAS",
+      "reporter_phone": "7712628253",
+      "driver_name": "TOMAS JIMENES ISLAS",
+      "policy_number": "043170056395",
+      "policy_incident": "0285116",
+      "policy_start_date": "13/12/2024",
+      "policy_end_date": "13/12/2026",
+      "insured_amount": 1175958,
+      "agent_code": "85226",
+      "location": "19.5085,-97.48881",
+      "contacts": [
+        {
+          "name": "Yasu Leobardo Islas Avila",
+          "phone": [
+            "2223212284"
+          ],
+          "email": "traislasr69@yahoo.com.mx",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 95
+  },
+  {
+    "payload": {
+      "device_id": 869671077417416,
+      "vehicle_vin": "3WKYD40X0JF502653",
+      "vehicle_year": 2018,
+      "vehicle_plates": "14AG7E",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T 680 PACCAR MX-13 455H",
+      "vehicle_color": "N/A",
+      "insured_name": "TRANSPORTES HERNIE, S.A. DE C. V.",
+      "incident_type": "Otro",
+      "reporter_name": "GEROGINA CORDOVA",
+      "reporter_phone": "4621131284",
+      "driver_name": "JOSE RAMON MENDEZ",
+      "policy_number": "040005227540",
+      "policy_incident": "0328436",
+      "policy_start_date": "26/10/2025",
+      "policy_end_date": "26/10/2026",
+      "insured_amount": 904803,
+      "agent_code": "25100",
+      "location": "19.97949,-99.14092",
+      "contacts": [
+        {
+          "name": "Edgar Martínez Chavero",
+          "phone": [
+            "4621002823"
+          ],
+          "email": "gerencia@hernie.com.mx",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 96
+  },
+  {
+    "payload": {
+      "device_id": 869671074388503,
+      "vehicle_vin": "3WKZDP0XXRF547181",
+      "vehicle_year": 2024,
+      "vehicle_plates": "81BC7S",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T 880 6X4 MX-13 E5 510H",
+      "vehicle_color": "N/A",
+      "insured_name": "TRANSPORTES GYM ESPECIALIZADOS S.A. DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "RAMON CUEVAS",
+      "reporter_phone": "4425615172",
+      "driver_name": "RAUL DIAZ BARRERA",
+      "policy_number": "046290023744",
+      "policy_incident": "0346468",
+      "policy_start_date": "30/09/2025",
+      "policy_end_date": "30/09/2026",
+      "insured_amount": 2006400,
+      "agent_code": "12980",
+      "location": "19.55851,-98.72418",
+      "contacts": [
+        {
+          "name": "DANIEL HERNANDEZ",
+          "phone": [
+            "4424152048"
+          ],
+          "email": "albdan43kzy@icloud.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 97
+  },
+  {
+    "payload": {
+      "device_id": 863238070877669,
+      "vehicle_vin": "3WKDD40X1HF871319",
+      "vehicle_year": 2017,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T 800 B 42",
+      "vehicle_color": "N/A",
+      "insured_name": "ARNULFO CORTES YANEZ",
+      "incident_type": "Otro",
+      "reporter_name": "JOCELINE",
+      "reporter_phone": "7761235899",
+      "driver_name": "EPIFANIO CHAVEZ RAMIREZ",
+      "policy_number": "040210067239",
+      "policy_incident": "0384735",
+      "policy_start_date": "28/06/2025",
+      "policy_end_date": "28/06/2026",
+      "insured_amount": 2017000,
+      "agent_code": "26279",
+      "location": "19.60555,-99.03581",
+      "contacts": [
+        {
+          "name": "Claudia Orozco Cruz",
+          "phone": [
+            "7761061426"
+          ],
+          "email": "tcortezortega@outlook.es",
+          "contact_type": "installation"
+        },
+        {
+          "name": "Claudia Orozco Cruz",
+          "phone": [
+            "7761061426"
+          ],
+          "email": "tcortezortega@outlook.es",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 98
+  },
+  {
+    "payload": {
+      "device_id": 863238071632600,
+      "vehicle_vin": "3C911423XMA115297",
+      "vehicle_year": 2021,
+      "vehicle_plates": "SP",
+      "vehicle_make": "REMOLQUE                ",
+      "vehicle_model": "RM PLATAFORMA 3 EJES 40 BAJA",
+      "vehicle_color": "N/A",
+      "insured_name": "TRANSPORTES CORTEZ ORTEGA, S.A . DE C.V.",
+      "incident_type": "Otro",
+      "reporter_name": "JOCELINE",
+      "reporter_phone": "7761235899",
+      "driver_name": "EPIFANIO CHAVEZ RAMIREZ",
+      "policy_number": "040210067238",
+      "policy_incident": "0384742",
+      "policy_start_date": "28/06/2025",
+      "policy_end_date": "28/06/2026",
+      "insured_amount": 1720400,
+      "agent_code": "26279",
+      "location": "19.6139,-99.03834",
+      "contacts": [
+        {
+          "name": "Claudia Orozco Cruz",
+          "phone": [
+            "7761061426"
+          ],
+          "email": "tcortezortega@outlook.es",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 99
+  },
+  {
+    "payload": {
+      "device_id": 863427042298522,
+      "vehicle_vin": "3WKZD40X5GF497642",
+      "vehicle_year": 2016,
+      "vehicle_plates": "650DN5",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T 880 CUMMINS ISX 450HP",
+      "vehicle_color": "N/A",
+      "insured_name": "AUTOTRANSPORTES DIAMANTE AZUL, S.A. DE C.V .",
+      "incident_type": "Otro",
+      "reporter_name": "MIGUEL FRAGOSO",
+      "reporter_phone": "5573390614",
+      "driver_name": "NOMBRE CONDUCTOR",
+      "policy_number": "048990317281",
+      "policy_incident": "0407575",
+      "policy_start_date": "03/05/2025",
+      "policy_end_date": "03/05/2026",
+      "insured_amount": 2018000,
+      "agent_code": "89331",
+      "location": "19.23243,-96.21131",
+      "contacts": [
+        {
+          "name": "GABRIELA VILLALOBOS",
+          "phone": [
+            "5534445174"
+          ],
+          "email": "autotransportesdiamanteazul@gmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 100
+  },
+  {
+    "payload": {
+      "device_id": 863427042285503,
+      "vehicle_vin": "3WKZD40X2SF564884",
+      "vehicle_year": 2025,
+      "vehicle_plates": "SP",
+      "vehicle_make": "KENWORTH                ",
+      "vehicle_model": "TR KENWORTH T880 CUMMINS X15 450HP",
+      "vehicle_color": "N/A",
+      "insured_name": "MARTIN DOMINGUEZ GONZALEZ",
+      "incident_type": "Otro",
+      "reporter_name": "VIRGINIA FLORES ROJAS",
+      "reporter_phone": "5524544400",
+      "driver_name": "DAGOBERTO VAZQUEZ MACHUCA",
+      "policy_number": "043170067257",
+      "policy_incident": "0426767",
+      "policy_start_date": "30/01/2026",
+      "policy_end_date": "30/01/2027",
+      "insured_amount": 1250050,
+      "agent_code": "85240",
+      "location": "19.08595,-98.19769",
+      "contacts": [
+        {
+          "name": "GABRIEL ESPINOZA",
+          "phone": [
+            "2225583292"
+          ],
+          "email": "asureste@masseguros.mx",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 101
+  },
+  {
+    "payload": {
+      "device_id": 863238077158121,
+      "vehicle_vin": "3A9AA4088JA210008",
+      "vehicle_year": 2018,
+      "vehicle_plates": "08UA5T",
+      "vehicle_make": "REMOLQUE                ",
+      "vehicle_model": "RM TOLVA 3 EJES 40 MTS 3 AC.CARBON",
+      "vehicle_color": "N/A",
+      "insured_name": "MANUEL ANGEL MARTINEZ AVILA",
+      "incident_type": "Otro",
+      "reporter_name": "ARTURO MARTINEZ",
+      "reporter_phone": "5553370900",
+      "driver_name": "ISIDRO HERNANDEZ CRUZ",
+      "policy_number": "046290024872",
+      "policy_incident": "0463373",
+      "policy_start_date": "03/11/2025",
+      "policy_end_date": "03/11/2026",
+      "insured_amount": 1095300,
+      "agent_code": "12980",
+      "location": "19.6116,-99.02747",
+      "contacts": [
+        {
+          "name": "ARTURO MARTINEZ",
+          "phone": [
+            "7761076118"
+          ],
+          "email": "arturo_martz@hotmail.com",
+          "contact_type": "installation"
+        }
+      ]
+    },
+    "_recovered": true,
+    "_source_line": 102
+  },
+  {
+    "payload": {
+      "device_id": 472568038900002,
+      "vehicle_vin": "MZBET2A15PN477917",
+      "vehicle_year": 2023,
+      "vehicle_plates": "GYZ694E",
+      "vehicle_make": "KIA                     ",
+      "vehicle_model": "KIA SELTOS GT LINE 5P L4 1.4T GTDI",
+      "vehicle_color": "N/A",
+      "insured_name": "BERTHA CURTIDOR SORIA",
+      "incident_type": "Otro",
+      "reporter_name": "BERTHA CURTIDOR SORIA",
+      "reporter_phone": "4612679238",
+      "driver_name": "BERTHA CURTIDOR SORIA",
+      "policy_number": "040830446212",
+      "policy_incident": "0463779",
+      "policy_start_date": "21/11/2025",
+      "policy_end_date": "21/11/2026",
+      "insured_amount": 751000,
+      "agent_code": "04671"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472568038900002",
+          "vin": "MZBET2A15PN477917",
+          "plates": "GYZ694E",
+          "status": "registered",
+          "emergency_contact": {
+            "name": "BERTHA CURTIDOR SORIA",
+            "phone": "4612679238"
+          }
+        }
+      }
+    },
+    "env": "qa",
+    "_recovered": true,
+    "_source_line": 103
+  },
+  {
+    "payload": {
+      "device_id": 472568141300009,
+      "vehicle_vin": "3N6CD35A6TK810425",
+      "vehicle_year": 2026,
+      "vehicle_plates": "KV2987A",
+      "vehicle_make": "NISSAN                  ",
+      "vehicle_model": "CS NISSAN NP300 CH CAB 2P L4 2.5L V",
+      "vehicle_color": "N/A",
+      "insured_name": "TIP AUTO S.A. DE C.V. SOFOM E.N.R.",
+      "incident_type": "Otro",
+      "reporter_name": "OSIRI FERNANDO LOPEZ CORREA",
+      "reporter_phone": "5524544400",
+      "driver_name": "ALEJANDRO ESPINOZA GARCIA",
+      "policy_number": "043130028769",
+      "policy_incident": "0501227",
+      "policy_start_date": "10/02/2026",
+      "policy_end_date": "10/02/2027",
+      "insured_amount": 505305,
+      "agent_code": "43326"
+    },
+    "result": {
+      "status": "success",
+      "result": {
+        "success": true,
+        "message": "Vehicle theft incident reported successfully",
+        "data": {
+          "device_id": "472568141300009",
+          "vin": "3N6CD35A6TK810425",
+          "plates": "KV2987A",
+          "status": "registered"
+        }
+      }
+    },
+    "_recovered": true,
+    "_source_line": 104
+  }
+]
