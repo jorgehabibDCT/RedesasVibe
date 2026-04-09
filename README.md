@@ -26,6 +26,61 @@ Source of truth: `spec.md` v0.3, `plan.md`, `reference-findings.md`, `copy-vs-do
 
 **No** OAuth redirect, **no** `localStorage` for the bearer token, **no** browser calls to Pegasus with `?auth=`.
 
+### Pegasus launch contract (custom app)
+
+Observed Pegasus custom-app wiring indicates launch via:
+
+- `/api/apps/pegasus2.0`
+- `custom_apps.path = "https://qservices.pegasusgateway.com/installations/"`
+- `custom_apps.include_token = true`
+- `custom_apps.token_name = "access_token"`
+
+Expected iframe launch shape for this app:
+
+`https://qservices.pegasusgateway.com/installations/?access_token=<pegasus_user_token>[&policy_incident=<id>]`
+
+Handling in this repo:
+
+- **Frontend** captures `access_token` from URL query, stores it **in memory only**, strips it from the address bar, and sends it to the BFF as `Authorization: Bearer <token>`.
+- **BFF** validates that Bearer token server-side with Pegasus (`GET ${PEGASUS_SITE}/api/login?auth=...`) unless `PEGASUS_AUTH_DISABLED=true`.
+
+### Bypass vs real Pegasus auth mode
+
+| Mode | Required env | Behavior |
+|------|--------------|----------|
+| **Bypass (dev/demo)** | `PEGASUS_AUTH_DISABLED=true` | BFF accepts well-formed Bearer tokens without calling Pegasus HTTP. |
+| **Real Pegasus auth** | `PEGASUS_AUTH_DISABLED=false` **and** `PEGASUS_SITE=https://...` | BFF validates each token with `GET ${PEGASUS_SITE}/api/login?auth=<token>` (with timeout + cache). |
+
+If `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is missing/empty, auth fails closed with `401` + `problem: auth_unavailable`, and `/ready` reports `checks.pegasusAuth.status=error` with `reason=pegasus_site_unset`.
+
+On startup, the BFF emits a structured `bff_listen` log line with non-secret diagnostics: `pegasusAuthMode`, `pegasusSiteConfigured`, and `bitacoraDataMode`.
+
+### Real-auth smoke test (cutover)
+
+When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
+
+1. In Pegasus, click the custom app entry that opens `.../installations/?access_token=...`.
+2. In browser DevTools:
+   - Confirm the first URL includes `access_token`, then the SPA strips it from the address bar.
+   - Confirm API calls to `/api/v1/bitacora` include `Authorization: Bearer ...`.
+3. In Render logs (BFF), inspect auth events for the same request window:
+   - Success path: `event=auth_success`, `authMode=pegasus_http`.
+   - Failure path: `event=auth_failure` with stable `problem` plus `reason` (e.g. `pegasus_site_unset`, `pegasus_timeout`, `pegasus_network_error`, `token_invalid_or_expired`).
+4. Expected user behavior:
+   - Valid token -> normal detail page load.
+   - Invalid/expired token -> banner with session-expired/invalid copy.
+   - Pegasus unavailable -> banner indicating validation is temporarily unavailable.
+
+**Recommended first attempt on Render (auth-only isolation):**
+
+- `PEGASUS_AUTH_DISABLED=false`
+- `PEGASUS_SITE=https://<pegasus-base-host>`
+- `BITACORA_DATA_MODE=fixture` (keep data source stable while validating auth cutover)
+- `DATABASE_URL` unset (not used in fixture mode)
+- `CORS_ORIGINS=https://<your-vercel-app-domain>[,https://<preview-domain>]`
+
+After auth works end-to-end, switch `BITACORA_DATA_MODE`/`DATABASE_URL` per your db/integration runbook.
+
 ## CSP / `frame-ancestors` (where headers apply)
 
 | Layer | Role |

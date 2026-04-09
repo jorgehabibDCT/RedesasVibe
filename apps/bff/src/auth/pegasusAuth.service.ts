@@ -29,15 +29,15 @@ export function pegasusResultFromHttpStatus(status: number): PegasusValidateResu
     return { ok: true, mode: 'pegasus_http' };
   }
   if (status === 401) {
-    return { ok: false, problem: AuthProblems.tokenExpired };
+    return { ok: false, problem: AuthProblems.tokenExpired, mode: 'pegasus_http', reason: 'pegasus_http_401' };
   }
   if (status === 403) {
-    return { ok: false, problem: AuthProblems.invalidToken };
+    return { ok: false, problem: AuthProblems.invalidToken, mode: 'pegasus_http', reason: 'pegasus_http_403' };
   }
   if (status >= 400 && status < 500) {
-    return { ok: false, problem: AuthProblems.invalidToken };
+    return { ok: false, problem: AuthProblems.invalidToken, mode: 'pegasus_http', reason: 'pegasus_http_4xx' };
   }
-  return { ok: false, problem: AuthProblems.authUnavailable };
+  return { ok: false, problem: AuthProblems.authUnavailable, mode: 'pegasus_http', reason: 'pegasus_http_5xx' };
 }
 
 function getPegasusFetchTimeoutMs(): number {
@@ -58,7 +58,7 @@ export async function validatePegasusSession(token: string): Promise<PegasusVali
 
   const site = process.env.PEGASUS_SITE?.trim();
   if (!site) {
-    return { ok: false, problem: AuthProblems.authUnavailable };
+    return { ok: false, problem: AuthProblems.authUnavailable, mode: 'pegasus_http', reason: 'pegasus_site_unset' };
   }
 
   const cacheEnabled = isPegasusCacheEnabled();
@@ -91,9 +91,15 @@ export async function validatePegasusSession(token: string): Promise<PegasusVali
       getPegasusAuthCache().set(key, result, ttl);
     }
     return result;
-  } catch {
+  } catch (e) {
     clearTimeout(timer);
-    const result: PegasusValidateResult = { ok: false, problem: AuthProblems.authUnavailable };
+    const reason = e instanceof Error && e.name === 'AbortError' ? 'pegasus_timeout' : 'pegasus_network_error';
+    const result: PegasusValidateResult = {
+      ok: false,
+      problem: AuthProblems.authUnavailable,
+      mode: 'pegasus_http',
+      reason,
+    };
     if (cacheEnabled) {
       getPegasusAuthCache().set(key, result, getPegasusCacheUnavailableTtlMs());
     }

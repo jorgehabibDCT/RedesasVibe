@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { getBitacoraDataMode } from './config/bitacoraDataMode.js';
 import { createServer } from './server.js';
 
 /** Render and other hosts set `PORT`; local default 3000. */
@@ -16,6 +17,9 @@ function listenHost(): string {
 
 const port = listenPort();
 const host = listenHost();
+const pegasusAuthDisabled = process.env.PEGASUS_AUTH_DISABLED === 'true';
+const pegasusSiteConfigured = Boolean(process.env.PEGASUS_SITE?.trim());
+const bitacoraDataMode = getBitacoraDataMode();
 
 createServer().listen(port, host, () => {
   console.log(
@@ -25,6 +29,9 @@ createServer().listen(port, host, () => {
       service: 'redesas-lite-bff',
       host,
       port,
+      pegasusAuthMode: pegasusAuthDisabled ? 'bypass' : 'pegasus_http',
+      pegasusSiteConfigured,
+      bitacoraDataMode,
     }),
   );
 });

@@ -46,8 +46,27 @@ export function logAuthFailure(fields: {
   requestId: string;
   path: string;
   problem: string;
+  authMode: 'bypass' | 'pegasus_http';
+  reason:
+    | 'authorization_header_missing_or_invalid'
+    | 'pegasus_site_unset'
+    | 'pegasus_http_401'
+    | 'pegasus_http_403'
+    | 'pegasus_http_4xx'
+    | 'pegasus_http_5xx'
+    | 'pegasus_timeout'
+    | 'pegasus_network_error'
+    | 'token_invalid_or_expired';
 }): void {
   emit('warn', 'auth_failure', fields);
+}
+
+export function logAuthSuccess(fields: {
+  requestId: string;
+  path: string;
+  authMode: 'bypass' | 'pegasus_http';
+}): void {
+  emit('info', 'auth_success', fields);
 }
 
 export function logAuthMiddlewareError(fields: { requestId: string; path: string; message: string }): void {

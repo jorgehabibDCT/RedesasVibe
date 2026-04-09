@@ -1,5 +1,7 @@
 # Pegasus embedded / external app integration — targeted findings
 
+> Note: this is historical source-code analysis. Current live evidence for this app's launch contract indicates Pegasus custom apps append the token as `access_token` (`include_token: true`, `token_name: "access_token"`). Prefer the operational contract documented in `README.md`.
+
 Scope: patterns in the copied `pegasus/` tree relevant to **embedding third-party web UIs** (iframe / external URLs) and related auth. Not a repo overview.
 
 **Legend:** *Verified* = directly supported by file contents below. *Guess* = plausible but not proven in-tree. *Partial* = code suggests behavior but wiring or usage is incomplete/outdated.

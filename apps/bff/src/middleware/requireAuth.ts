@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { AuthProblems, authErrorBody } from '../auth/authProblems.js';
 import { extractBearerToken } from '../auth/bearer.js';
 import { validatePegasusSession } from '../auth/pegasusAuth.service.js';
-import { logAuthFailure, logAuthMiddlewareError } from '../observability/log.js';
+import { logAuthFailure, logAuthMiddlewareError, logAuthSuccess } from '../observability/log.js';
 
 const messages: Record<string, string> = {
   [AuthProblems.missingToken]: 'No autorizado',
@@ -15,6 +15,7 @@ const messages: Record<string, string> = {
 export function requireAuthMiddleware(req: Request, res: Response, next: NextFunction): void {
   void (async () => {
     try {
+      const authMode = process.env.PEGASUS_AUTH_DISABLED === 'true' ? 'bypass' : 'pegasus_http';
       const extracted = extractBearerToken(req.headers.authorization);
       if (!extracted.ok) {
         const problem = extracted.problem;
@@ -22,6 +23,8 @@ export function requireAuthMiddleware(req: Request, res: Response, next: NextFun
           requestId: req.requestId ?? 'unknown',
           path: req.path,
           problem,
+          authMode,
+          reason: 'authorization_header_missing_or_invalid',
         });
         res.status(401).json(authErrorBody(problem, messages[problem] ?? 'No autorizado'));
         return;
@@ -34,11 +37,21 @@ export function requireAuthMiddleware(req: Request, res: Response, next: NextFun
           requestId: req.requestId ?? 'unknown',
           path: req.path,
           problem,
+          authMode: pegasus.mode,
+          reason:
+            pegasus.reason === 'pegasus_http_401' || pegasus.reason === 'pegasus_http_403'
+              ? 'token_invalid_or_expired'
+              : pegasus.reason,
         });
         res.status(401).json(authErrorBody(problem, messages[problem] ?? 'No autorizado'));
         return;
       }
 
+      logAuthSuccess({
+        requestId: req.requestId ?? 'unknown',
+        path: req.path,
+        authMode: pegasus.mode,
+      });
       req.pegasusToken = extracted.token;
       next();
     } catch (e) {

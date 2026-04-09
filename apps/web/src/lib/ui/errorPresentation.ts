@@ -6,7 +6,7 @@ const AUTH_PROBLEM_LABEL: Record<string, string> = {
   missing_token: 'Falta el token de sesión.',
   invalid_token: 'La sesión no es válida.',
   token_expired: 'La sesión expiró. Vuelva a abrir la vista desde Pegasus.',
-  auth_unavailable: 'No se pudo validar la sesión en este momento. Intente de nuevo.',
+  auth_unavailable: 'No se pudo validar la sesión con Pegasus en este momento. Intente de nuevo.',
   malformed_auth_header: 'El encabezado de autorización no es válido.',
 };
 

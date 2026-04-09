@@ -16,6 +16,8 @@ describe('pegasusResultFromHttpStatus', () => {
     expect(pegasusResultFromHttpStatus(401)).toEqual({
       ok: false,
       problem: AuthProblems.tokenExpired,
+      mode: 'pegasus_http',
+      reason: 'pegasus_http_401',
     });
   });
 
@@ -23,6 +25,8 @@ describe('pegasusResultFromHttpStatus', () => {
     expect(pegasusResultFromHttpStatus(403)).toEqual({
       ok: false,
       problem: AuthProblems.invalidToken,
+      mode: 'pegasus_http',
+      reason: 'pegasus_http_403',
     });
   });
 
@@ -30,6 +34,8 @@ describe('pegasusResultFromHttpStatus', () => {
     expect(pegasusResultFromHttpStatus(404)).toEqual({
       ok: false,
       problem: AuthProblems.invalidToken,
+      mode: 'pegasus_http',
+      reason: 'pegasus_http_4xx',
     });
   });
 
@@ -37,6 +43,8 @@ describe('pegasusResultFromHttpStatus', () => {
     expect(pegasusResultFromHttpStatus(503)).toEqual({
       ok: false,
       problem: AuthProblems.authUnavailable,
+      mode: 'pegasus_http',
+      reason: 'pegasus_http_5xx',
     });
   });
 });
@@ -72,6 +80,17 @@ describe('validatePegasusSession + cache', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('fails closed with explicit reason when PEGASUS_SITE is missing', async () => {
+    delete process.env.PEGASUS_SITE;
+    const r = await validatePegasusSession('tok');
+    expect(r).toEqual({
+      ok: false,
+      problem: AuthProblems.authUnavailable,
+      mode: 'pegasus_http',
+      reason: 'pegasus_site_unset',
+    });
+  });
+
   it('caches success: second call does not invoke fetch', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ status: 200, ok: true });
     vi.stubGlobal('fetch', fetchMock);
@@ -96,7 +115,12 @@ describe('validatePegasusSession + cache', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('ECONNREFUSED')));
 
     const r = await validatePegasusSession('tok');
-    expect(r).toEqual({ ok: false, problem: AuthProblems.authUnavailable });
+    expect(r).toEqual({
+      ok: false,
+      problem: AuthProblems.authUnavailable,
+      mode: 'pegasus_http',
+      reason: 'pegasus_network_error',
+    });
   });
 
   it('skips cache when PEGASUS_AUTH_CACHE_ENABLED=false', async () => {
