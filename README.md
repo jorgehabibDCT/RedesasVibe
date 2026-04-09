@@ -166,6 +166,7 @@ Required env when using integration mode: **`BITACORA_UPSTREAM_BASE_URL`**. See 
 | `npm test` | Vitest: shared + BFF auth + web |
 | `npm run build -w @redesas-lite/web` | Production build of SPA |
 | `npm run build -w @redesas-lite/bff` | Compile BFF to `dist/` |
+| `npm run db:migrate` | Apply **`db/migrations/001_bitacora.sql`** (requires **`DATABASE_URL`**, **`psql`**) |
 
 ## Vercel: frontend only (`apps/web`)
 
@@ -209,6 +210,46 @@ SPA **fallback:** all routes rewrite to **`index.html`** so client-side routing 
 
 See also **`apps/web/.env.example`**.
 
+## Render: BFF only (`apps/bff`)
+
+Deploy the Express BFF as a **Web Service** (the SPA stays on Vercel). **`PORT`** is set by Render; the process listens on **`0.0.0.0`** (override with **`BFF_LISTEN_HOST`** only if you have a special bind requirement).
+
+| Setting | Value |
+|--------|--------|
+| **Root Directory** | **`apps/bff`** |
+| **Build Command** | **`cd ../.. && npm ci && npm run build:shared && npm run build -w @redesas-lite/bff`** |
+| **Start Command** | **`npm start`** (runs **`node dist/index.js`**) |
+
+Use **`npm install`** instead of **`npm ci`** only if you intentionally avoid a strict lockfile install.
+
+**Health checks:** Use **`/health`** (always **200** when the process is up). **`/ready`** returns **503** when configuration is not ready (e.g. missing **`PEGASUS_SITE`** when auth is not bypassed); point Render’s *health check* at **`/health`** so deploys do not fail while **`/ready`** reflects optional dependencies.
+
+**First deploy — set at least:**
+
+| Variable | Notes |
+|----------|--------|
+| **`CORS_ORIGINS`** | Comma-separated origins allowed to call the API (include your Vercel URL(s), e.g. `https://your-app.vercel.app`). |
+| **`PEGASUS_AUTH_DISABLED`** | `true` only for demos without Pegasus HTTP; production should use **`false`** and **`PEGASUS_SITE`**. |
+| **`BITACORA_DATA_MODE`** | `fixture` (default-style) or `db` / `integration` per your backend plan. |
+| **`DATABASE_URL`** | Required if **`BITACORA_DATA_MODE=db`**. |
+
+Render injects **`PORT`**; do not hardcode it. See **`.env.example`** for the full list (`BITACORA_*`, Pegasus cache, security headers, etc.). Never log bearer tokens or secrets.
+
+Optional **[`render.yaml`](./render.yaml)** at the repo root mirrors these settings for [Render Blueprints](https://render.com/docs/infrastructure-as-code); adjust the service **`name`** / **plan** in the dashboard if needed.
+
+### Switching Render from fixture to db mode
+
+Keep **`CORS_ORIGINS`**, **`PEGASUS_*`**, and **Vercel `VITE_API_BASE_URL`** unchanged unless you are fixing a separate issue — **URLs and the API contract stay the same**.
+
+| Phase | `BITACORA_DATA_MODE` | `DATABASE_URL` |
+|-------|------------------------|----------------|
+| **Before cutover** | **`fixture`** (or unset, depending on how you configured Render) | Omit or unused by the BFF for reads |
+| **After cutover** | **`db`** | **Required** — hosted Postgres connection string the BFF can reach (often same region / private URL on Render) |
+
+**Order of operations:** (1) provision Postgres, (2) run migration, (3) run bulk import if you need historical rows, (4) set **`DATABASE_URL`** and **`BITACORA_DATA_MODE=db`** on Render, (5) redeploy and verify **`/health`**, **`/ready`**, and **`GET /api/v1/bitacora`**. Full checklist: **[`docs/runbook-hosted-postgres.md`](docs/runbook-hosted-postgres.md)**.
+
+Helper: **`npm run db:migrate`** from repo root applies **`db/migrations/001_bitacora.sql`** when **`DATABASE_URL`** is set (needs **`psql`** locally).
+
 ## Environment
 
 See `.env.example` (auth, Pegasus cache, CORS, security headers, observability stubs, **`BITACORA_*`**). Do not commit secrets.
@@ -225,6 +266,7 @@ PostgreSQL schema and **`POST /api/v1/bitacora/ingest`** are documented in [`doc
 ## Production readiness checklist
 
 - **Web (Vercel / static host):** Set **`VITE_API_BASE_URL`** to the public BFF origin at build time; without it, production bundles use same-origin **`/api/...`** (fine for local Vite proxy only).
+- **BFF (Render):** Root **`apps/bff`**, build from monorepo root (see **Render** section), health check **`/health`**, set **`CORS_ORIGINS`** for the SPA origin.
 - **Pegasus:** `PEGASUS_AUTH_DISABLED=false`, **`PEGASUS_SITE`**, tune cache/TTL env vars; verify **`GET …/api/login?auth=`** in staging under load.
 - **CORS:** Set **`CORS_ORIGINS`** on the BFF to exact production web origins (not `*`), including the Vercel preview/prod URLs if the SPA is hosted there.
 - **Embed policy:** **`FRAME_ANCESTORS`** on the BFF **and** on the static host serving **`index.html`**.

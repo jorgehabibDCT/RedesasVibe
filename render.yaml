@@ -1,0 +1,10 @@
+# Optional Render Blueprint (https://render.com/docs/infrastructure-as-code).
+# Create/update the service from the Render dashboard, or connect this repo and apply the blueprint.
+services:
+  - type: web
+    name: redesas-lite-bff
+    runtime: node
+    rootDir: apps/bff
+    buildCommand: cd ../.. && npm ci && npm run build:shared && npm run build -w @redesas-lite/bff
+    startCommand: npm start
+    healthCheckPath: /health

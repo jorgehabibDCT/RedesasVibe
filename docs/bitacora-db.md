@@ -25,7 +25,7 @@ So: **one normalized row per incident key**, **many raw rows** over time if the 
 
 - **`POST /api/v1/bitacora/ingest`** — body: canonical **`BitacoraDocument`** (same shape as spec / GET). Requires **`Authorization: Bearer`** like other protected routes.
 - **`GET /api/v1/bitacora/cases`** — compact list for the SPA case switcher (`policy_incident`, `plates`, `insured_name`, `updated_at`). Query: **`limit`**, optional **`search`**. In fixture mode returns **`{ cases: [] }`**; in **`BITACORA_DATA_MODE=db`** reads from **`bitacora_cases`**.
-- **`GET /api/v1/bitacora`** — unchanged; still driven by fixture/integration mode, **not** by Postgres.
+- **`GET /api/v1/bitacora`** — same JSON contract everywhere. **Fixture** mode: from the canonical file. **`BITACORA_DATA_MODE=db`**: from **`bitacora_cases`** (see table below). **Integration** mode: from the configured upstream.
 
 ## Bulk historical import
 
@@ -56,7 +56,13 @@ The web app forwards it as **`GET /api/v1/bitacora?policy_incident=...`**.
    psql "$DATABASE_URL" -f db/migrations/001_bitacora.sql
    ```
 
+   Or from the repo root: **`npm run db:migrate`** (requires **`DATABASE_URL`** and **`psql`**). The migration is **not** idempotent — use a fresh database or expect failure if tables already exist.
+
 2. Set **`DATABASE_URL`** for the BFF (see `.env.example`). Without it, ingest returns **503** `ingest_unavailable`.
+
+## Hosted Postgres cutover (e.g. Render BFF)
+
+For a step-by-step switch from **fixture** to **db** mode on a hosted database (migration, bulk import, Render env vars, verification), see **[`runbook-hosted-postgres.md`](./runbook-hosted-postgres.md)**.
 
 ## Remaining product/DB questions
 

@@ -15,7 +15,8 @@
     "dev:bff": "npm run dev -w @redesas-lite/bff",
     "demo:bff": "BITACORA_DATA_MODE=fixture PEGASUS_AUTH_DISABLED=true npm run dev -w @redesas-lite/bff",
     "demo:web": "npm run dev -w @redesas-lite/web",
-    "bulk-ingest:theft": "npm run bulk-ingest:theft -w @redesas-lite/bff"
+    "bulk-ingest:theft": "npm run bulk-ingest:theft -w @redesas-lite/bff",
+    "db:migrate": "bash scripts/bitacora-db-migrate.sh"
   },
   "devDependencies": {
     "prettier": "^3.4.2",

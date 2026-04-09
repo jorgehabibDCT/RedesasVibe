@@ -16,6 +16,7 @@ Malformed lines or array elements are **reported** in the summary and do not sto
 ## Prerequisites
 
 - **Schema applied** for real import: `psql "$DATABASE_URL" -f db/migrations/001_bitacora.sql`
+- Or from repo root: **`npm run db:migrate`** (same as above; **`DATABASE_URL`** and **`psql`** required).
 - **`DATABASE_URL`** in `.env` or the environment (required for **import**; optional for **dry-run** if you only want structural + normalize checks without DB classification).
 
 ## Commands
