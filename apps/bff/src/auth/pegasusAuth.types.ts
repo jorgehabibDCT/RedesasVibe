@@ -1,8 +1,22 @@
 import type { AuthProblem } from './authProblems.js';
 
+/** Minimal fields from Pegasus **`GET /user/resources`** (after successful `/api/login` validation). */
+export interface PegasusUserResourcesProfile {
+  id?: string;
+  username?: string;
+  email?: string;
+  isStaff: boolean;
+  isSuperuser: boolean;
+}
+
 export interface PegasusPrincipal {
   userId?: string;
   groupIds: string[];
+  /**
+   * Set only when **`/user/resources`** returned parseable JSON. Omitted when fetch is disabled,
+   * fails, or returns non-2xx — so missing **`resources`** never implies staff.
+   */
+  resources?: PegasusUserResourcesProfile;
 }
 
 /**

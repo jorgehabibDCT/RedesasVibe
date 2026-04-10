@@ -13,6 +13,7 @@ import type {
   PegasusPrincipalExtractionMeta,
   PegasusValidateResult,
 } from './pegasusAuth.types.js';
+import { fetchPegasusUserResourcesProfile } from './pegasusUserResources.js';
 
 export type { PegasusValidateResult } from './pegasusAuth.types.js';
 
@@ -304,6 +305,12 @@ export async function validatePegasusSession(token: string): Promise<PegasusVali
         principal = merged.principal;
         principalExtraction = merged.meta;
       }
+
+      const resourcesProfile = await fetchPegasusUserResourcesProfile(base, token, timeoutMs);
+      if (resourcesProfile) {
+        principal = { ...principal, resources: resourcesProfile };
+      }
+
       result = { ...baseResult, principal, principalExtraction };
     }
     if (cacheEnabled) {

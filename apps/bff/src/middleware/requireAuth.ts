@@ -8,6 +8,7 @@ import {
   logAuthMiddlewareError,
   logAuthSuccess,
   logPegasusPrincipalSummary,
+  logPegasusResourcesSummary,
 } from '../observability/log.js';
 
 const messages: Record<string, string> = {
@@ -85,6 +86,22 @@ export function requireAuthMiddleware(req: Request, res: Response, next: NextFun
           pathsMatched: m.pathsMatched,
           userIdSource: m.userIdSource,
           bodyParseFailed: m.bodyParseFailed,
+        });
+      }
+      if (
+        pegasus.ok &&
+        pegasus.mode === 'pegasus_http' &&
+        pegasus.principal &&
+        process.env.PEGASUS_RESOURCES_SUMMARY_LOG !== 'false'
+      ) {
+        const res = pegasus.principal.resources;
+        logPegasusResourcesSummary({
+          requestId: req.requestId ?? 'unknown',
+          path: req.path,
+          resourcesPresent: Boolean(res),
+          isStaff: res?.isStaff ?? false,
+          isSuperuser: res?.isSuperuser ?? false,
+          hasResourcesId: Boolean(res?.id),
         });
       }
       req.pegasusToken = extracted.token;

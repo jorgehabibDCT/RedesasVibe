@@ -3,6 +3,31 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAppAuthorizationConfig } from '../config/authzConfig.js';
 import { createServer } from '../server.js';
 
+function stubPegasusLoginThenResources(loginJson: unknown): void {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      const u = typeof input === 'string' ? input : String(input);
+      if (u.includes('/user/resources')) {
+        return Promise.resolve({
+          status: 200,
+          ok: true,
+          json: async () => ({ is_staff: false, is_superuser: false }),
+        });
+      }
+      return Promise.resolve({
+        status: 200,
+        ok: true,
+        headers: new Headers(),
+        clone() {
+          return this;
+        },
+        json: async () => loginJson,
+      });
+    }),
+  );
+}
+
 describe('requireAuthorizationMiddleware', () => {
   const originalEnv = { ...process.env };
   const app = createServer();
@@ -24,17 +49,7 @@ describe('requireAuthorizationMiddleware', () => {
   });
 
   it('allows authenticated user when no app-level allowlist is configured', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        status: 200,
-        ok: true,
-        clone() {
-          return this;
-        },
-        json: async () => ({ user: { id: 'u-1', groups: [{ id: 'g-1' }] } }),
-      }),
-    );
+    stubPegasusLoginThenResources({ user: { id: 'u-1', groups: [{ id: 'g-1' }] } });
 
     const res = await request(app).get('/api/v1/bitacora').set('Authorization', 'Bearer tok-no-allowlist');
     expect(res.status).toBe(200);
@@ -42,17 +57,7 @@ describe('requireAuthorizationMiddleware', () => {
 
   it('returns 403 for authenticated but unauthorized user', async () => {
     process.env.PEGASUS_ALLOWED_USER_IDS = 'u-allowed';
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        status: 200,
-        ok: true,
-        clone() {
-          return this;
-        },
-        json: async () => ({ user: { id: 'u-denied', groups: [{ id: 'g-2' }] } }),
-      }),
-    );
+    stubPegasusLoginThenResources({ user: { id: 'u-denied', groups: [{ id: 'g-2' }] } });
 
     const res = await request(app).get('/api/v1/bitacora').set('Authorization', 'Bearer tok-denied');
     expect(res.status).toBe(403);
@@ -76,17 +81,7 @@ describe('requireAuthorizationMiddleware', () => {
   it('allows user by user-id allowlist', async () => {
     process.env.PEGASUS_ALLOWED_USER_IDS = 'u-x,u-y';
     expect(getAppAuthorizationConfig().allowedUserIds.has('u-x')).toBe(true);
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        status: 200,
-        ok: true,
-        clone() {
-          return this;
-        },
-        json: async () => ({ user_id: 'u-x', group_ids: ['g-admin'] }),
-      }),
-    );
+    stubPegasusLoginThenResources({ user_id: 'u-x', group_ids: ['g-admin'] });
 
     const res = await request(app).get('/api/v1/bitacora').set('Authorization', 'Bearer tok-allowed');
     expect(res.status).toBe(200);

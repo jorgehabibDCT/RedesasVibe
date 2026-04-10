@@ -12,10 +12,38 @@ describe('operatorGateConfig', () => {
     else process.env.PEGASUS_OPERATOR_GROUP_IDS = origG;
   });
 
-  it('returns false when env lists are empty', () => {
+  it('returns false when env lists are empty and no staff resources', () => {
     delete process.env.PEGASUS_OPERATOR_USER_IDS;
     delete process.env.PEGASUS_OPERATOR_GROUP_IDS;
     expect(isOperatorPrincipal({ userId: 'u1', groupIds: [] }, 'pegasus_http')).toBe(false);
+    expect(
+      isOperatorPrincipal(
+        { userId: 'u1', groupIds: [], resources: { isStaff: false, isSuperuser: false } },
+        'pegasus_http',
+      ),
+    ).toBe(false);
+  });
+
+  it('returns true when is_staff from resources (env lists empty)', () => {
+    delete process.env.PEGASUS_OPERATOR_USER_IDS;
+    delete process.env.PEGASUS_OPERATOR_GROUP_IDS;
+    expect(
+      isOperatorPrincipal(
+        { userId: 'u1', groupIds: [], resources: { isStaff: true, isSuperuser: false } },
+        'pegasus_http',
+      ),
+    ).toBe(true);
+  });
+
+  it('returns true when is_superuser from resources (env lists empty)', () => {
+    delete process.env.PEGASUS_OPERATOR_USER_IDS;
+    delete process.env.PEGASUS_OPERATOR_GROUP_IDS;
+    expect(
+      isOperatorPrincipal(
+        { userId: 'u1', groupIds: [], resources: { isStaff: false, isSuperuser: true } },
+        'pegasus_http',
+      ),
+    ).toBe(true);
   });
 
   it('matches operator user id', () => {

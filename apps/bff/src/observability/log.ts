@@ -83,6 +83,18 @@ export function logPegasusPrincipalSummary(fields: {
   emit('info', 'pegasus_principal_summary', fields);
 }
 
+/** `/user/resources` outcome — booleans and presence only; no emails, usernames, or payloads. */
+export function logPegasusResourcesSummary(fields: {
+  requestId: string;
+  path: string;
+  resourcesPresent: boolean;
+  isStaff: boolean;
+  isSuperuser: boolean;
+  hasResourcesId: boolean;
+}): void {
+  emit('info', 'pegasus_resources_summary', fields);
+}
+
 export function logAuthorizationFailure(fields: {
   requestId: string;
   path: string;
