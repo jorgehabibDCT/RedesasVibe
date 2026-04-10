@@ -13,6 +13,7 @@ import { captureExceptionForObservability } from './observability/sentryHooks.js
 import { logCorsBlocked } from './observability/log.js';
 import { bitacoraRouter } from './routes/bitacora.js';
 import { requireAuthMiddleware } from './middleware/requireAuth.js';
+import { requireAuthorizationMiddleware } from './middleware/requireAuthorization.js';
 import { requestLoggingMiddleware } from './middleware/requestLogging.js';
 import { securityHeadersMiddleware } from './middleware/securityHeaders.js';
 
@@ -60,6 +61,7 @@ export function createServer(options?: { bitacoraIngestService?: BitacoraIngestS
 
   const protectedApi = Router();
   protectedApi.use(requireAuthMiddleware);
+  protectedApi.use(requireAuthorizationMiddleware);
   protectedApi.use(bitacoraRouter(bitacoraService, { ingest: ingestService }));
   app.use('/api/v1', protectedApi);
 

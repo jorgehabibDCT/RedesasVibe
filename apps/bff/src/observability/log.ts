@@ -69,6 +69,39 @@ export function logAuthSuccess(fields: {
   emit('info', 'auth_success', fields);
 }
 
+/** Safe summary only — never log tokens or full Pegasus JSON bodies. */
+export function logPegasusPrincipalSummary(fields: {
+  requestId: string;
+  path: string;
+  hasUserId: boolean;
+  groupCount: number;
+  pathsMatched: string[];
+  bodyParseFailed?: boolean;
+}): void {
+  emit('info', 'pegasus_principal_summary', fields);
+}
+
+export function logAuthorizationFailure(fields: {
+  requestId: string;
+  path: string;
+  authMode: 'bypass' | 'pegasus_http';
+  reason: 'principal_missing' | 'user_not_allowed' | 'group_not_allowed';
+  hasUserId: boolean;
+  groupCount: number;
+}): void {
+  emit('warn', 'authorization_failure', fields);
+}
+
+export function logAuthorizationSuccess(fields: {
+  requestId: string;
+  path: string;
+  authMode: 'bypass' | 'pegasus_http';
+  hasUserId: boolean;
+  groupCount: number;
+}): void {
+  emit('info', 'authorization_success', fields);
+}
+
 export function logAuthMiddlewareError(fields: { requestId: string; path: string; message: string }): void {
   emit('error', 'auth_middleware_error', fields);
 }

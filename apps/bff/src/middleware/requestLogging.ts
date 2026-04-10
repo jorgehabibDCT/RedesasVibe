@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
+import type { PegasusPrincipal } from '../auth/pegasusAuth.types.js';
 import { logRequestComplete } from '../observability/log.js';
 
 declare module 'express-serve-static-core' {
@@ -7,6 +8,8 @@ declare module 'express-serve-static-core' {
     requestId?: string;
     /** Opaque Pegasus session token after successful validation */
     pegasusToken?: string;
+    pegasusAuthMode?: 'bypass' | 'pegasus_http';
+    pegasusPrincipal?: PegasusPrincipal;
   }
 }
 

@@ -92,7 +92,14 @@ describe('validatePegasusSession + cache', () => {
   });
 
   it('caches success: second call does not invoke fetch', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({ status: 200, ok: true });
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      clone() {
+        return this;
+      },
+      json: async () => ({}),
+    });
     vi.stubGlobal('fetch', fetchMock);
 
     await validatePegasusSession('same-token');
@@ -102,7 +109,14 @@ describe('validatePegasusSession + cache', () => {
   });
 
   it('different tokens invoke fetch separately', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({ status: 200, ok: true });
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      clone() {
+        return this;
+      },
+      json: async () => ({}),
+    });
     vi.stubGlobal('fetch', fetchMock);
 
     await validatePegasusSession('token-one');
@@ -125,12 +139,47 @@ describe('validatePegasusSession + cache', () => {
 
   it('skips cache when PEGASUS_AUTH_CACHE_ENABLED=false', async () => {
     process.env.PEGASUS_AUTH_CACHE_ENABLED = 'false';
-    const fetchMock = vi.fn().mockResolvedValue({ status: 200, ok: true });
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      clone() {
+        return this;
+      },
+      json: async () => ({}),
+    });
     vi.stubGlobal('fetch', fetchMock);
 
     await validatePegasusSession('same');
     await validatePegasusSession('same');
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('extracts principal metadata from /api/login JSON', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        ok: true,
+        clone() {
+          return this;
+        },
+        json: async () => ({
+          user_id: 'u-99',
+          group_ids: ['g1', 'g2'],
+        }),
+      }),
+    );
+
+    const r = await validatePegasusSession('tok-meta');
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.principal?.userId).toBe('u-99');
+      expect(r.principal?.groupIds).toEqual(['g1', 'g2']);
+      expect(r.principalExtraction?.hasUserId).toBe(true);
+      expect(r.principalExtraction?.groupCount).toBe(2);
+      expect(r.principalExtraction?.pathsMatched).toContain('root.user_id');
+      expect(r.principalExtraction?.pathsMatched).toContain('root.group_ids');
+    }
   });
 });

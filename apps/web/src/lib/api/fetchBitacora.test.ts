@@ -91,4 +91,17 @@ describe('fetchBitacoraDocument', () => {
     await expect(fetchBitacoraDocument()).rejects.toBeInstanceOf(BitacoraAuthError);
     expect(getBearerToken()).toBeNull();
   });
+
+  it('surfaces 403 authorization message', async () => {
+    setMemoryTokenForTests('tok');
+    vi.mocked(fetch).mockResolvedValue({
+      ok: false,
+      status: 403,
+      json: () => Promise.resolve({ message: 'No autorizado para usar esta aplicación.' }),
+    } as Response);
+
+    await expect(fetchBitacoraDocument()).rejects.toThrow(
+      'bitacora_client:403:No autorizado para usar esta aplicación.',
+    );
+  });
 });

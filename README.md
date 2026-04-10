@@ -58,6 +58,33 @@ If `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is missing/empty, auth fails
 
 On startup, the BFF emits a structured `bff_listen` log line with non-secret diagnostics: `pegasusAuthMode`, `pegasusSiteConfigured`, and `bitacoraDataMode`.
 
+### Authentication vs authorization
+
+- **Authentication:** validate Pegasus session token (`Authorization: Bearer`) via `GET ${PEGASUS_SITE}/api/login?auth=...` (or bypass mode in local/dev).
+- **Authorization (app-level):** optional allowlists checked **after** successful authentication.
+  - `PEGASUS_ALLOWED_USER_IDS` (comma-separated user ids)
+  - `PEGASUS_ALLOWED_GROUP_IDS` (comma-separated group ids)
+
+Current scope is **app-level only**: allow/deny access to this app's protected routes. It is **not** record-level authorization.
+
+Behavior:
+
+- If both allowlists are unset: authenticated users are allowed (current default behavior).
+- If one/both allowlists are set: authenticated users must match by user id or group id.
+- Authenticated but unauthorized requests return **`403`** with:
+  - `error: "forbidden"`
+  - `problem: "app_access_denied"`
+
+BFF logs authorization events as structured `authorization_success` / `authorization_failure` without token data.
+
+**Recommended first live app authorization mode**
+
+- **Start with `PEGASUS_ALLOWED_USER_IDS`** when `/api/login` returns a stable user id (`pegasus_principal_summary` shows `hasUserId: true` and a path like `root.user_id` or `nested.user.id`). This is usually the most predictable signal across environments.
+- **Add `PEGASUS_ALLOWED_GROUP_IDS`** (or use **both** as an OR) once logs show non-zero `groupCount` and useful `pathsMatched` entries for group arrays (e.g. `root.group_ids`, `nested.user.groups`). Group-based allowlists depend on Pegasus actually returning group membership in that JSON shape.
+- **Inspect `pegasus_principal_summary` in Render logs** before tightening allowlists: confirm `bodyParseFailed` is false and that `pathsMatched` reflects what you expect.
+
+Disable principal summary lines after cutover if desired: set **`PEGASUS_PRINCIPAL_SUMMARY_LOG=false`** (defaults to on when unset).
+
 ### Real-auth smoke test (cutover)
 
 When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
@@ -68,6 +95,7 @@ When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
    - Confirm API calls to `/api/v1/bitacora` include `Authorization: Bearer ...`.
 3. In Render logs (BFF), inspect auth events for the same request window:
    - Success path: `event=auth_success`, `authMode=pegasus_http`.
+   - Principal shape (safe): `event=pegasus_principal_summary` with `hasUserId`, `groupCount`, `pathsMatched`, `bodyParseFailed`.
    - Failure path: `event=auth_failure` with stable `problem` plus `reason` (e.g. `pegasus_site_unset`, `pegasus_timeout`, `pegasus_network_error`, `token_invalid_or_expired`).
 4. Expected user behavior:
    - Valid token -> normal detail page load.

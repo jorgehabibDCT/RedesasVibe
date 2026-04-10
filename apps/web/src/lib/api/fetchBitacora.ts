@@ -64,6 +64,17 @@ export async function fetchBitacoraDocument(policyIncident?: string | null): Pro
     throw new Error(`bitacora_client:400:${message}`);
   }
 
+  if (res.status === 403) {
+    let message = 'No autorizado para usar esta aplicación.';
+    try {
+      const body = (await res.json()) as { message?: string };
+      if (typeof body.message === 'string') message = body.message;
+    } catch {
+      /* ignore */
+    }
+    throw new Error(`bitacora_client:403:${message}`);
+  }
+
   if (!res.ok) {
     throw new Error(`bitacora_fetch_failed:${res.status}`);
   }

@@ -30,6 +30,9 @@ export function messageForUnknownError(err: unknown): string {
     if (m.startsWith('bitacora_client:400:')) {
       return m.slice('bitacora_client:400:'.length);
     }
+    if (m.startsWith('bitacora_client:403:')) {
+      return m.slice('bitacora_client:403:'.length);
+    }
     if (m.startsWith('bitacora_fetch_failed:')) {
       const code = m.split(':')[1];
       if (code === '502' || code === '503' || code === '504') {

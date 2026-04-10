@@ -8,9 +8,120 @@ import {
   isPegasusCacheEnabled,
   resetPegasusAuthCacheForTests,
 } from './pegasusAuthCache.js';
-import type { PegasusValidateResult } from './pegasusAuth.types.js';
+import type {
+  PegasusPrincipal,
+  PegasusPrincipalExtractionMeta,
+  PegasusValidateResult,
+} from './pegasusAuth.types.js';
 
 export type { PegasusValidateResult } from './pegasusAuth.types.js';
+
+function asNonEmptyString(v: unknown): string | undefined {
+  if (typeof v !== 'string') return undefined;
+  const t = v.trim();
+  return t.length > 0 ? t : undefined;
+}
+
+function collectGroupIds(v: unknown): string[] {
+  if (!Array.isArray(v)) return [];
+  const out: string[] = [];
+  for (const item of v) {
+    if (typeof item === 'string' && item.trim() !== '') {
+      out.push(item.trim());
+      continue;
+    }
+    if (item && typeof item === 'object') {
+      const id = asNonEmptyString((item as Record<string, unknown>).id);
+      const gid = asNonEmptyString((item as Record<string, unknown>).group_id);
+      const value = id ?? gid;
+      if (value) out.push(value);
+    }
+  }
+  return Array.from(new Set(out));
+}
+
+function extractUserIdWithPath(
+  root: Record<string, unknown>,
+  user: Record<string, unknown> | undefined,
+): { userId?: string; path?: string } {
+  const candidates: [string, unknown][] = [
+    ['root.user_id', root.user_id],
+    ['root.uid', root.uid],
+    ['root.id', root.id],
+  ];
+  if (user) {
+    candidates.push(
+      ['nested.user.user_id', user.user_id],
+      ['nested.user.uid', user.uid],
+      ['nested.user.id', user.id],
+    );
+  }
+  for (const [path, v] of candidates) {
+    const s = asNonEmptyString(v);
+    if (s) return { userId: s, path };
+  }
+  return {};
+}
+
+function mergeGroupsWithPaths(
+  root: Record<string, unknown>,
+  user: Record<string, unknown> | undefined,
+): { groupIds: string[]; paths: string[] } {
+  const paths: string[] = [];
+  const all: string[] = [];
+  const sources: [string, unknown][] = [
+    ['root.group_ids', root.group_ids],
+    ['root.groupIds', root.groupIds],
+    ['root.groups', root.groups],
+  ];
+  if (user) {
+    sources.push(
+      ['nested.user.group_ids', user.group_ids],
+      ['nested.user.groupIds', user.groupIds],
+      ['nested.user.groups', user.groups],
+    );
+  }
+  for (const [label, v] of sources) {
+    const ids = collectGroupIds(v);
+    if (ids.length > 0) paths.push(label);
+    all.push(...ids);
+  }
+  const groupIds = Array.from(new Set(all));
+  return { groupIds, paths };
+}
+
+function extractPrincipalWithMeta(body: unknown): {
+  principal: PegasusPrincipal;
+  meta: PegasusPrincipalExtractionMeta;
+} {
+  if (!body || typeof body !== 'object') {
+    return {
+      principal: { groupIds: [] },
+      meta: { hasUserId: false, groupCount: 0, pathsMatched: [], bodyParseFailed: true },
+    };
+  }
+  const root = body as Record<string, unknown>;
+  const user =
+    (root.user && typeof root.user === 'object' ? (root.user as Record<string, unknown>) : undefined) ??
+    (root.data && typeof root.data === 'object' ? (root.data as Record<string, unknown>) : undefined);
+
+  const { userId, path: userPath } = extractUserIdWithPath(root, user);
+  const { groupIds, paths: groupPaths } = mergeGroupsWithPaths(root, user);
+
+  const pathsMatched: string[] = [];
+  if (userPath) pathsMatched.push(userPath);
+  pathsMatched.push(...groupPaths);
+
+  return {
+    principal: { userId, groupIds: groupIds.length > 0 ? groupIds : [] },
+    meta: {
+      hasUserId: Boolean(userId),
+      groupCount: groupIds.length,
+      pathsMatched,
+      bodyParseFailed: false,
+    },
+  };
+}
 
 /**
  * Pegasus session validation (reference: qualitas-installations `auth.guard.ts`):
@@ -81,7 +192,27 @@ export async function validatePegasusSession(token: string): Promise<PegasusVali
   try {
     const res = await fetch(url, { method: 'GET', signal: controller.signal });
     clearTimeout(timer);
-    const result = pegasusResultFromHttpStatus(res.status);
+    const baseResult = pegasusResultFromHttpStatus(res.status);
+    let result: PegasusValidateResult = baseResult;
+    if (baseResult.ok) {
+      let principal: PegasusPrincipal | undefined;
+      let principalExtraction: PegasusPrincipalExtractionMeta | undefined;
+      try {
+        if (typeof (res as Response).clone === 'function') {
+          const body = (await res.clone().json()) as unknown;
+          const extracted = extractPrincipalWithMeta(body);
+          principal = extracted.principal;
+          principalExtraction = extracted.meta;
+        } else {
+          principal = { groupIds: [] };
+          principalExtraction = { hasUserId: false, groupCount: 0, pathsMatched: [], bodyParseFailed: true };
+        }
+      } catch {
+        principal = { groupIds: [] };
+        principalExtraction = { hasUserId: false, groupCount: 0, pathsMatched: [], bodyParseFailed: true };
+      }
+      result = { ...baseResult, principal, principalExtraction };
+    }
     if (cacheEnabled) {
       const ttl = result.ok
         ? getPegasusCacheTtlMs()

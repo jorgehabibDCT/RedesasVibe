@@ -16,6 +16,7 @@ describe('errorPresentation', () => {
   it('maps bitacora_client 404/400 messages', () => {
     expect(messageForUnknownError(new Error('bitacora_client:404:Missing case'))).toBe('Missing case');
     expect(messageForUnknownError(new Error('bitacora_client:400:No default'))).toBe('No default');
+    expect(messageForUnknownError(new Error('bitacora_client:403:No autorizado'))).toBe('No autorizado');
   });
 
   it('passes through BitacoraAuthError message when problem unknown', () => {
