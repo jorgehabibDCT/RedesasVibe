@@ -4,6 +4,7 @@ import type { BitacoraCaseListItem, BitacoraDocument } from '@redesas-lite/share
 import { BitacoraAuthError } from '../../lib/api/authErrors.js';
 import { fetchBitacoraCasesList } from '../../lib/api/fetchBitacoraCasesList.js';
 import { fetchBitacoraDocument } from '../../lib/api/fetchBitacora.js';
+import { fetchOperatorMeta, type OperatorMetaPayload } from '../../lib/api/fetchOperatorMeta.js';
 import { captureTokenFromUrlOnce, getBearerToken } from '../../lib/auth/memoryToken.js';
 import { labelForAuthProblem, messageForUnknownError } from '../../lib/ui/errorPresentation.js';
 import { CaseSwitcher } from './CaseSwitcher.js';
@@ -12,6 +13,7 @@ import { ContactDirectory } from './ContactDirectory.js';
 import { EmbedStandalone } from './EmbedStandalone.js';
 import { HeaderSummary } from './HeaderSummary.js';
 import { LatestPosition } from './LatestPosition.js';
+import { OperatorObservability } from './OperatorObservability.js';
 import { ResultMetadata } from './ResultMetadata.js';
 import { StatusCards } from './StatusCards.js';
 import { VehicleDetails } from './VehicleDetails.js';
@@ -30,6 +32,7 @@ export function BitacoraPage() {
   const [casesLoading, setCasesLoading] = useState(false);
   const [caseSearch, setCaseSearch] = useState('');
   const [debouncedCaseSearch, setDebouncedCaseSearch] = useState('');
+  const [operatorMeta, setOperatorMeta] = useState<OperatorMetaPayload | null>(null);
 
   useEffect(() => {
     const t = window.setTimeout(() => setDebouncedCaseSearch(caseSearch), 300);
@@ -90,6 +93,21 @@ export function BitacoraPage() {
     };
   }, [policyIncident]);
 
+  useEffect(() => {
+    if (phase !== 'ready' || !doc) {
+      setOperatorMeta(null);
+      return;
+    }
+    const pi = policyIncident ?? doc.payload.policy_incident;
+    let cancelled = false;
+    void fetchOperatorMeta(pi).then((m) => {
+      if (!cancelled) setOperatorMeta(m);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [phase, policyIncident, doc]);
+
   const handleSelectCase = (pi: string) => {
     setSearchParams(
       (prev) => {
@@ -139,6 +157,7 @@ export function BitacoraPage() {
         onSelect={handleSelectCase}
       />
       <ConflictBanner doc={doc} />
+      {operatorMeta ? <OperatorObservability meta={operatorMeta} /> : null}
       <section className="section">
         <h2>Resumen</h2>
         <HeaderSummary doc={doc} />

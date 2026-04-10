@@ -344,7 +344,7 @@ See `.env.example` (auth, Pegasus cache, CORS, security headers, observability s
 
 ## Bitácora database (optional ingest)
 
-PostgreSQL schema and **`POST /api/v1/bitacora/ingest`** are documented in [`docs/bitacora-db.md`](docs/bitacora-db.md). **Ongoing ingestion** (cron, upstream push, CLI batch tradeoffs): [`docs/ongoing-ingest.md`](docs/ongoing-ingest.md). **Source feed shapes** (HTTP vs poll vs file): [`docs/source-feed-integration.md`](docs/source-feed-integration.md). **Zapier / machine push:** [`docs/zapier-ingest.md`](docs/zapier-ingest.md). **`GET /api/v1/bitacora`** is unchanged and does not read from the database.
+PostgreSQL schema and **`POST /api/v1/bitacora/ingest`** are documented in [`docs/bitacora-db.md`](docs/bitacora-db.md). **Ongoing ingestion** (cron, upstream push, CLI batch tradeoffs): [`docs/ongoing-ingest.md`](docs/ongoing-ingest.md). **Source feed shapes** (HTTP vs poll vs file): [`docs/source-feed-integration.md`](docs/source-feed-integration.md). **Zapier / machine push:** [`docs/zapier-ingest.md`](docs/zapier-ingest.md). **Operator-only observability:** [`docs/operator-observability.md`](docs/operator-observability.md). **`GET /api/v1/bitacora`** is unchanged and does not read from the database.
 
 ## Fixtures
 

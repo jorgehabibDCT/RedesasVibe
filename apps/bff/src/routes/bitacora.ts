@@ -8,7 +8,7 @@ import {
 } from '../bitacora/bitacoraDbErrors.js';
 import { getBitacoraDataMode } from '../config/bitacoraDataMode.js';
 import { isBitacoraIngestSecretValid } from '../config/bitacoraIngestSecret.js';
-import { listCasesCompact } from '../db/bitacoraCaseReadRepository.js';
+import { getCaseOperatorMeta, listCasesCompact } from '../db/bitacoraCaseReadRepository.js';
 import { getPool } from '../db/pool.js';
 import type { BitacoraIngestService } from '../db/bitacoraIngestService.js';
 import {
@@ -67,6 +67,74 @@ export function bitacoraRouter(
       captureExceptionForObservability(e, { requestId, route: 'bitacora/cases' });
       res.status(500).json({ error: 'bitacora_cases_failed', message: 'Could not list cases' });
     }
+  });
+
+  /**
+   * Operator-only metadata (ids, mode). Non-operators receive **404** (no capability leak).
+   */
+  r.get('/bitacora/operator-meta', async (req: Request, res: Response) => {
+    if (!req.pegasusIsOperator) {
+      res.status(404).json({ error: 'not_found', message: 'Not found' });
+      return;
+    }
+
+    const mode = getBitacoraDataMode();
+    const pegasusAuthMode = req.pegasusAuthMode ?? 'pegasus_http';
+    const rawPolicy = req.query.policy_incident;
+    const policyIncident =
+      typeof rawPolicy === 'string' && rawPolicy.trim() !== ''
+        ? rawPolicy.trim()
+        : Array.isArray(rawPolicy) && typeof rawPolicy[0] === 'string'
+          ? rawPolicy[0].trim()
+          : undefined;
+
+    if (mode === 'db') {
+      const pool = getPool();
+      if (!pool) {
+        res.status(503).json({ error: 'bitacora_db_unavailable', message: 'Database not configured' });
+        return;
+      }
+      try {
+        const row = await getCaseOperatorMeta(pool, policyIncident);
+        if (!row) {
+          res.json({
+            bitacoraDataMode: mode,
+            pegasusAuthMode,
+            policyIncident: policyIncident ?? null,
+            caseId: null,
+            latestRawId: null,
+            caseUpdatedAt: null,
+            documentEnv: null,
+          });
+          return;
+        }
+        res.json({
+          bitacoraDataMode: mode,
+          pegasusAuthMode,
+          policyIncident: row.policyIncident,
+          caseId: row.caseId,
+          latestRawId: row.latestRawId,
+          caseUpdatedAt: row.updatedAtUtc,
+          documentEnv: row.env,
+        });
+        return;
+      } catch (e) {
+        const requestId = req.requestId ?? 'unknown';
+        captureExceptionForObservability(e, { requestId, route: 'bitacora/operator-meta' });
+        res.status(500).json({ error: 'operator_meta_failed', message: 'Could not load operator metadata' });
+        return;
+      }
+    }
+
+    res.json({
+      bitacoraDataMode: mode,
+      pegasusAuthMode,
+      policyIncident: policyIncident ?? null,
+      caseId: null,
+      latestRawId: null,
+      caseUpdatedAt: null,
+      documentEnv: null,
+    });
   });
 
   /**

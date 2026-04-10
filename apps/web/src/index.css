@@ -66,6 +66,11 @@ h2 {
   opacity: 0.92;
 }
 
+/** Operator-only panel — distinct from main content. */
+.operator-obs {
+  border-left: 3px solid #5c6e8c;
+}
+
 .section__title-secondary {
   font-size: 0.95rem;
   font-weight: 600;

@@ -10,6 +10,8 @@ declare module 'express-serve-static-core' {
     pegasusToken?: string;
     pegasusAuthMode?: 'bypass' | 'pegasus_http' | 'machine_ingest';
     pegasusPrincipal?: PegasusPrincipal;
+    /** True when **`PEGASUS_OPERATOR_*`** env lists match the Pegasus principal. */
+    pegasusIsOperator?: boolean;
   }
 }
 

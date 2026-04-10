@@ -77,6 +77,62 @@ export async function getCaseByPolicyIncident(
   return rowToCase(r.rows[0] as Record<string, unknown>);
 }
 
+/** Minimal row for operator observability (ids + timestamps). */
+export interface CaseOperatorMetaRow {
+  caseId: string;
+  policyIncident: string;
+  latestRawId: string | null;
+  updatedAtUtc: string;
+  env: string | null;
+}
+
+function rowToOperatorMeta(row: Record<string, unknown>): CaseOperatorMetaRow {
+  const updated = (row as { updated_at?: unknown }).updated_at;
+  let updatedAtUtc: string;
+  if (updated instanceof Date) {
+    updatedAtUtc = updated.toISOString();
+  } else if (typeof updated === 'string') {
+    const d = new Date(updated);
+    updatedAtUtc = Number.isNaN(d.getTime()) ? updated : d.toISOString();
+  } else {
+    updatedAtUtc = new Date(0).toISOString();
+  }
+  const lid = (row as { latest_raw_id?: unknown }).latest_raw_id;
+  const latestRawId =
+    lid == null ? null : typeof lid === 'bigint' ? lid.toString() : String(lid);
+  return {
+    caseId: String((row as { id?: unknown }).id ?? ''),
+    policyIncident: String((row as { policy_incident?: unknown }).policy_incident ?? ''),
+    latestRawId,
+    updatedAtUtc,
+    env: (row as { env?: unknown }).env == null ? null : String((row as { env?: unknown }).env),
+  };
+}
+
+/**
+ * One case for operator panel: by **`policy_incident`**, or most recently updated if omitted.
+ */
+export async function getCaseOperatorMeta(
+  pool: Pool,
+  policyIncident: string | undefined,
+): Promise<CaseOperatorMetaRow | null> {
+  if (policyIncident != null && policyIncident.trim() !== '') {
+    const r = await pool.query(
+      `SELECT id, policy_incident, latest_raw_id, updated_at, env
+       FROM bitacora_cases WHERE policy_incident = $1 LIMIT 1`,
+      [policyIncident.trim()],
+    );
+    if (r.rows.length === 0) return null;
+    return rowToOperatorMeta(r.rows[0] as Record<string, unknown>);
+  }
+  const r = await pool.query(
+    `SELECT id, policy_incident, latest_raw_id, updated_at, env
+     FROM bitacora_cases ORDER BY updated_at DESC LIMIT 1`,
+  );
+  if (r.rows.length === 0) return null;
+  return rowToOperatorMeta(r.rows[0] as Record<string, unknown>);
+}
+
 export async function listRecentCases(pool: Pool, limit: number): Promise<BitacoraCaseDbRow[]> {
   const capped = Math.min(Math.max(1, limit), 100);
   const r = await pool.query(
