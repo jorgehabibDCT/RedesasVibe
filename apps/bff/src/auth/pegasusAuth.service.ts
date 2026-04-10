@@ -123,6 +123,87 @@ function extractPrincipalWithMeta(body: unknown): {
   };
 }
 
+/** Env override: comma-separated header names tried first (before built-in defaults). */
+function configuredUserIdHeaderNames(): string[] {
+  const raw = process.env.PEGASUS_USER_ID_HEADERS?.trim();
+  if (!raw) return [];
+  return raw.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+}
+
+const DEFAULT_USER_ID_HEADERS = [
+  'x-peg-user-id',
+  'x-pegasus-user-id',
+  'x-peg-uid',
+  'x-user-id',
+  'pegasus-user-id',
+];
+
+function extractUserIdFromHeaders(res: Response): { userId?: string; headerName?: string } {
+  const names = [...configuredUserIdHeaderNames(), ...DEFAULT_USER_ID_HEADERS];
+  const seen = new Set<string>();
+  for (const name of names) {
+    const key = name.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const v = res.headers.get(name);
+    const id = asNonEmptyString(v);
+    if (id) return { userId: id, headerName: name };
+  }
+  return {};
+}
+
+/** Optional comma-separated group ids in a single response header (gateway-specific). */
+function extractGroupIdsFromConfiguredHeader(res: Response): { ids: string[]; pathLabel?: string } {
+  const headerName = process.env.PEGASUS_GROUP_IDS_HEADER?.trim();
+  if (!headerName) return { ids: [] };
+  const raw = res.headers.get(headerName);
+  if (!raw) return { ids: [] };
+  const ids = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+  if (ids.length === 0) return { ids: [] };
+  return { ids, pathLabel: `response.header.${headerName}` };
+}
+
+/**
+ * Merge JSON body principal with **non-secret** identity headers on the same `/api/login` response.
+ * Body wins for user id when both are present; otherwise headers can supply user id / optional group ids.
+ */
+function mergeHeaderPrincipal(
+  res: Response,
+  bodyPrincipal: PegasusPrincipal,
+  bodyMeta: PegasusPrincipalExtractionMeta,
+): { principal: PegasusPrincipal; meta: PegasusPrincipalExtractionMeta } {
+  const pathsMatched = [...bodyMeta.pathsMatched];
+  let userId = bodyPrincipal.userId;
+  let groupIds = [...bodyPrincipal.groupIds];
+
+  if (!userId) {
+    const h = extractUserIdFromHeaders(res);
+    if (h.userId && h.headerName) {
+      userId = h.userId;
+      pathsMatched.push(`response.header.${h.headerName}`);
+    }
+  }
+
+  const headerGroups = extractGroupIdsFromConfiguredHeader(res);
+  if (headerGroups.ids.length > 0) {
+    groupIds = Array.from(new Set([...groupIds, ...headerGroups.ids]));
+    if (headerGroups.pathLabel) pathsMatched.push(headerGroups.pathLabel);
+  }
+
+  return {
+    principal: { userId, groupIds },
+    meta: {
+      ...bodyMeta,
+      hasUserId: Boolean(userId),
+      groupCount: groupIds.length,
+      pathsMatched,
+    },
+  };
+}
+
 /**
  * Pegasus session validation (reference: qualitas-installations `auth.guard.ts`):
  * `GET ${PEGASUS_SITE}/api/login?auth=${token}`.
@@ -201,15 +282,22 @@ export async function validatePegasusSession(token: string): Promise<PegasusVali
         if (typeof (res as Response).clone === 'function') {
           const body = (await res.clone().json()) as unknown;
           const extracted = extractPrincipalWithMeta(body);
-          principal = extracted.principal;
-          principalExtraction = extracted.meta;
+          const merged = mergeHeaderPrincipal(res, extracted.principal, extracted.meta);
+          principal = merged.principal;
+          principalExtraction = merged.meta;
         } else {
           principal = { groupIds: [] };
           principalExtraction = { hasUserId: false, groupCount: 0, pathsMatched: [], bodyParseFailed: true };
+          const merged = mergeHeaderPrincipal(res, principal, principalExtraction);
+          principal = merged.principal;
+          principalExtraction = merged.meta;
         }
       } catch {
         principal = { groupIds: [] };
         principalExtraction = { hasUserId: false, groupCount: 0, pathsMatched: [], bodyParseFailed: true };
+        const merged = mergeHeaderPrincipal(res, principal, principalExtraction);
+        principal = merged.principal;
+        principalExtraction = merged.meta;
       }
       result = { ...baseResult, principal, principalExtraction };
     }

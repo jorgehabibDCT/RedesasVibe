@@ -6,13 +6,16 @@ export interface PegasusPrincipal {
 }
 
 /**
- * Safe summary of what was inferred from `/api/login` JSON (for ops validation).
+ * Safe summary of what was inferred from `/api/login` JSON and **response headers** (for ops validation).
  * Never includes raw tokens or full payloads.
  */
 export interface PegasusPrincipalExtractionMeta {
   hasUserId: boolean;
   groupCount: number;
-  /** Which JSON paths contributed user id and/or group ids (e.g. `root.user_id`, `nested.user.groups`). */
+  /**
+   * Which JSON paths or header slots contributed (e.g. `root.user_id`, `response.header.x-peg-user-id`).
+   * Does not include secret values.
+   */
   pathsMatched: string[];
   /** True when the response was not a JSON object or JSON read/parse failed. */
   bodyParseFailed?: boolean;
@@ -24,7 +27,7 @@ export type PegasusValidateResult =
       ok: true;
       mode: 'bypass' | 'pegasus_http';
       principal?: PegasusPrincipal;
-      /** Present after a successful `pegasus_http` validation when JSON was inspected (may be empty principal). */
+      /** Present after successful `pegasus_http` validation when JSON and/or response headers were inspected (principal may still be empty). */
       principalExtraction?: PegasusPrincipalExtractionMeta;
     }
   | {

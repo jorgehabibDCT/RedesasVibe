@@ -155,6 +155,52 @@ describe('validatePegasusSession + cache', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it('extracts user id from /api/login response headers when JSON has no identity fields', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        ok: true,
+        headers: new Headers({ 'x-peg-user-id': 'user-from-header' }),
+        clone() {
+          return this;
+        },
+        json: async () => ({}),
+      }),
+    );
+
+    const r = await validatePegasusSession('tok-hdr');
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.principal?.userId).toBe('user-from-header');
+      expect(r.principalExtraction?.hasUserId).toBe(true);
+      expect(r.principalExtraction?.pathsMatched).toContain('response.header.x-peg-user-id');
+    }
+  });
+
+  it('prefers JSON body user id over duplicate header', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        ok: true,
+        headers: new Headers({ 'x-peg-user-id': 'from-header' }),
+        clone() {
+          return this;
+        },
+        json: async () => ({ user_id: 'from-body' }),
+      }),
+    );
+
+    const r = await validatePegasusSession('tok-pref');
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.principal?.userId).toBe('from-body');
+      expect(r.principalExtraction?.pathsMatched).toContain('root.user_id');
+      expect(r.principalExtraction?.pathsMatched).not.toContain('response.header.x-peg-user-id');
+    }
+  });
+
   it('extracts principal metadata from /api/login JSON', async () => {
     vi.stubGlobal(
       'fetch',

@@ -79,9 +79,9 @@ BFF logs authorization events as structured `authorization_success` / `authoriza
 
 **Recommended first live app authorization mode**
 
-- **Start with `PEGASUS_ALLOWED_USER_IDS`** when `/api/login` returns a stable user id (`pegasus_principal_summary` shows `hasUserId: true` and a path like `root.user_id` or `nested.user.id`). This is usually the most predictable signal across environments.
-- **Add `PEGASUS_ALLOWED_GROUP_IDS`** (or use **both** as an OR) once logs show non-zero `groupCount` and useful `pathsMatched` entries for group arrays (e.g. `root.group_ids`, `nested.user.groups`). Group-based allowlists depend on Pegasus actually returning group membership in that JSON shape.
-- **Inspect `pegasus_principal_summary` in Render logs** before tightening allowlists: confirm `bodyParseFailed` is false and that `pathsMatched` reflects what you expect.
+- **Start with `PEGASUS_ALLOWED_USER_IDS`** when `/api/login` yields a stable user id: either in JSON (`pathsMatched` like `root.user_id`) **or** in response headers (`response.header.<name>`). Set **`PEGASUS_USER_ID_HEADERS`** if your gateway uses non-default header names.
+- **Add `PEGASUS_ALLOWED_GROUP_IDS`** (or use **both** as an OR) once logs show non-zero `groupCount` and useful `pathsMatched` entries for group arrays in JSON (e.g. `root.group_ids`) **or** configure **`PEGASUS_GROUP_IDS_HEADER`** if the gateway sends comma-separated group ids in one header.
+- **Inspect `pegasus_principal_summary` in Render logs** before tightening allowlists: confirm `bodyParseFailed` is false and that `pathsMatched` reflects what you expect (JSON paths and/or `response.header.*`).
 
 Disable principal summary lines after cutover if desired: set **`PEGASUS_PRINCIPAL_SUMMARY_LOG=false`** (defaults to on when unset).
 
