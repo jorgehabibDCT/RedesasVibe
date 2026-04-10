@@ -76,6 +76,8 @@ export function logPegasusPrincipalSummary(fields: {
   hasUserId: boolean;
   groupCount: number;
   pathsMatched: string[];
+  /** When `hasUserId`, whether the id came from JSON vs response headers (no secret values). */
+  userIdSource?: 'body' | 'header';
   bodyParseFailed?: boolean;
 }): void {
   emit('info', 'pegasus_principal_summary', fields);

@@ -70,6 +70,7 @@ export function requireAuthMiddleware(req: Request, res: Response, next: NextFun
           hasUserId: m.hasUserId,
           groupCount: m.groupCount,
           pathsMatched: m.pathsMatched,
+          userIdSource: m.userIdSource,
           bodyParseFailed: m.bodyParseFailed,
         });
       }

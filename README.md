@@ -81,7 +81,7 @@ BFF logs authorization events as structured `authorization_success` / `authoriza
 
 - **Start with `PEGASUS_ALLOWED_USER_IDS`** when `/api/login` yields a stable user id: either in JSON (`pathsMatched` like `root.user_id`) **or** in response headers (`response.header.<name>`). Set **`PEGASUS_USER_ID_HEADERS`** if your gateway uses non-default header names.
 - **Add `PEGASUS_ALLOWED_GROUP_IDS`** (or use **both** as an OR) once logs show non-zero `groupCount` and useful `pathsMatched` entries for group arrays in JSON (e.g. `root.group_ids`) **or** configure **`PEGASUS_GROUP_IDS_HEADER`** if the gateway sends comma-separated group ids in one header.
-- **Inspect `pegasus_principal_summary` in Render logs** before tightening allowlists: confirm `bodyParseFailed` is false and that `pathsMatched` reflects what you expect (JSON paths and/or `response.header.*`).
+- **Inspect `pegasus_principal_summary` in Render logs** before tightening allowlists: confirm `bodyParseFailed` is false, use **`userIdSource`** (`body` vs `header`) to see where the id came from, and that `pathsMatched` reflects what you expect (JSON paths and/or `response.header.*`).
 
 Disable principal summary lines after cutover if desired: set **`PEGASUS_PRINCIPAL_SUMMARY_LOG=false`** (defaults to on when unset).
 
@@ -95,7 +95,7 @@ When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
    - Confirm API calls to `/api/v1/bitacora` include `Authorization: Bearer ...`.
 3. In Render logs (BFF), inspect auth events for the same request window:
    - Success path: `event=auth_success`, `authMode=pegasus_http`.
-   - Principal shape (safe): `event=pegasus_principal_summary` with `hasUserId`, `groupCount`, `pathsMatched`, `bodyParseFailed`.
+   - Principal shape (safe): `event=pegasus_principal_summary` with `hasUserId`, optional `userIdSource` (`body`|`header`), `groupCount`, `pathsMatched`, `bodyParseFailed`.
    - Failure path: `event=auth_failure` with stable `problem` plus `reason` (e.g. `pegasus_site_unset`, `pegasus_timeout`, `pegasus_network_error`, `token_invalid_or_expired`).
 4. Expected user behavior:
    - Valid token -> normal detail page load.

@@ -17,6 +17,11 @@ export interface PegasusPrincipalExtractionMeta {
    * Does not include secret values.
    */
   pathsMatched: string[];
+  /**
+   * When `hasUserId` is true, whether the resolved id came from JSON vs response headers (body wins if both present).
+   * Omitted when there is no user id.
+   */
+  userIdSource?: 'body' | 'header';
   /** True when the response was not a JSON object or JSON read/parse failed. */
   bodyParseFailed?: boolean;
 }

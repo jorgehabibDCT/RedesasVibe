@@ -174,6 +174,7 @@ describe('validatePegasusSession + cache', () => {
     if (r.ok) {
       expect(r.principal?.userId).toBe('user-from-header');
       expect(r.principalExtraction?.hasUserId).toBe(true);
+      expect(r.principalExtraction?.userIdSource).toBe('header');
       expect(r.principalExtraction?.pathsMatched).toContain('response.header.x-peg-user-id');
     }
   });
@@ -196,6 +197,7 @@ describe('validatePegasusSession + cache', () => {
     expect(r.ok).toBe(true);
     if (r.ok) {
       expect(r.principal?.userId).toBe('from-body');
+      expect(r.principalExtraction?.userIdSource).toBe('body');
       expect(r.principalExtraction?.pathsMatched).toContain('root.user_id');
       expect(r.principalExtraction?.pathsMatched).not.toContain('response.header.x-peg-user-id');
     }
@@ -226,6 +228,7 @@ describe('validatePegasusSession + cache', () => {
       expect(r.principalExtraction?.groupCount).toBe(2);
       expect(r.principalExtraction?.pathsMatched).toContain('root.user_id');
       expect(r.principalExtraction?.pathsMatched).toContain('root.group_ids');
+      expect(r.principalExtraction?.userIdSource).toBe('body');
     }
   });
 });

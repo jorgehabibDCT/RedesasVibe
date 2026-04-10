@@ -175,6 +175,7 @@ function mergeHeaderPrincipal(
   bodyPrincipal: PegasusPrincipal,
   bodyMeta: PegasusPrincipalExtractionMeta,
 ): { principal: PegasusPrincipal; meta: PegasusPrincipalExtractionMeta } {
+  const hadBodyUserId = Boolean(bodyPrincipal.userId);
   const pathsMatched = [...bodyMeta.pathsMatched];
   let userId = bodyPrincipal.userId;
   let groupIds = [...bodyPrincipal.groupIds];
@@ -193,6 +194,9 @@ function mergeHeaderPrincipal(
     if (headerGroups.pathLabel) pathsMatched.push(headerGroups.pathLabel);
   }
 
+  const userIdSource: 'body' | 'header' | undefined =
+    userId ? (hadBodyUserId ? 'body' : 'header') : undefined;
+
   return {
     principal: { userId, groupIds },
     meta: {
@@ -200,6 +204,7 @@ function mergeHeaderPrincipal(
       hasUserId: Boolean(userId),
       groupCount: groupIds.length,
       pathsMatched,
+      userIdSource,
     },
   };
 }
