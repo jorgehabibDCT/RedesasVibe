@@ -2,6 +2,8 @@
 
 This document describes **how new records reach PostgreSQL** in an ongoing way, given the current monorepo—without adding a new pipeline framework.
 
+**Choosing among HTTP push, polling, or file exports:** see **[`source-feed-integration.md`](./source-feed-integration.md)**.
+
 ## What already exists
 
 | Path | How it works | Auth / access |
@@ -23,7 +25,7 @@ There is **no** built-in webhook receiver, message queue, or in-repo cron schedu
 | **Success** | **201** `{ "ok": true, "caseId": "…", "rawId": "…" }` |
 | **Forbidden ingest** | **403** `{ "error": "ingest_forbidden", "message": "…" }` — missing/wrong ingest secret when configured. Logs **`ingest_forbidden`** (no secret values). |
 
-**Why the secret:** Normal app users in the iframe have a Pegasus Bearer but **do not** know the shared ingest key. Automation (cron, worker) can be given **Bearer + ingest secret** so writes are separated from “read-only” operators without a second user database.
+**Why the secret:** Normal app users in the iframe have a Pegasus Bearer but **do not** know the shared ingest key. Automation (cron, worker, **Zapier**) can use **`BITACORA_MACHINE_INGEST_TOKEN`** as **`Authorization: Bearer`** (no Pegasus session) plus **`X-Bitacora-Ingest-Secret`** — see **[`zapier-ingest.md`](./zapier-ingest.md)**.
 
 ## Recommended first model for “continuous” ingestion
 

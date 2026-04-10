@@ -31,12 +31,18 @@ const sample: BitacoraDocument = {
 
 describe('POST /api/v1/bitacora/ingest', () => {
   const originalIngestSecret = process.env.BITACORA_INGEST_SECRET;
+  const originalMachineToken = process.env.BITACORA_MACHINE_INGEST_TOKEN;
 
   afterEach(() => {
     if (originalIngestSecret === undefined) {
       delete process.env.BITACORA_INGEST_SECRET;
     } else {
       process.env.BITACORA_INGEST_SECRET = originalIngestSecret;
+    }
+    if (originalMachineToken === undefined) {
+      delete process.env.BITACORA_MACHINE_INGEST_TOKEN;
+    } else {
+      process.env.BITACORA_MACHINE_INGEST_TOKEN = originalMachineToken;
     }
   });
 
@@ -100,6 +106,22 @@ describe('POST /api/v1/bitacora/ingest', () => {
     expect(res.status).toBe(403);
     expect(res.body.error).toBe('ingest_forbidden');
     expect(ingest.ingestCanonicalDocument).not.toHaveBeenCalled();
+  });
+
+  it('returns 201 for machine ingest bearer plus ingest secret (Zapier-style)', async () => {
+    process.env.BITACORA_MACHINE_INGEST_TOKEN = 'zapier-static-bearer';
+    process.env.BITACORA_INGEST_SECRET = 'shared-ingest-secret';
+    const ingest = {
+      ingestCanonicalDocument: vi.fn().mockResolvedValue({ caseId: '10', rawId: '20' }),
+    };
+    const app = createServer({ bitacoraIngestService: ingest });
+    const res = await request(app)
+      .post('/api/v1/bitacora/ingest')
+      .set('Authorization', 'Bearer zapier-static-bearer')
+      .set('X-Bitacora-Ingest-Secret', 'shared-ingest-secret')
+      .send(sample);
+    expect(res.status).toBe(201);
+    expect(ingest.ingestCanonicalDocument).toHaveBeenCalledOnce();
   });
 
   it('returns 201 when ingest secret header matches', async () => {

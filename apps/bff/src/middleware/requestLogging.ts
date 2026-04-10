@@ -8,7 +8,7 @@ declare module 'express-serve-static-core' {
     requestId?: string;
     /** Opaque Pegasus session token after successful validation */
     pegasusToken?: string;
-    pegasusAuthMode?: 'bypass' | 'pegasus_http';
+    pegasusAuthMode?: 'bypass' | 'pegasus_http' | 'machine_ingest';
     pegasusPrincipal?: PegasusPrincipal;
   }
 }

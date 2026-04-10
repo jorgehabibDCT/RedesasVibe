@@ -14,6 +14,19 @@ export function requireAuthorizationMiddleware(req: Request, res: Response, next
   const authMode = req.pegasusAuthMode ?? 'pegasus_http';
   const config = getAppAuthorizationConfig();
 
+  /** Automation Bearer (`BITACORA_MACHINE_INGEST_TOKEN`) is its own gate; Pegasus allowlists do not apply. */
+  if (authMode === 'machine_ingest') {
+    logAuthorizationSuccess({
+      requestId,
+      path,
+      authMode: 'machine_ingest',
+      hasUserId: false,
+      groupCount: 0,
+    });
+    next();
+    return;
+  }
+
   // Keep current behavior when no explicit app-level allowlists are configured.
   if (!isAppAuthorizationEnabled(config)) {
     logAuthorizationSuccess({

@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { AuthProblems, authErrorBody } from '../auth/authProblems.js';
 import { extractBearerToken } from '../auth/bearer.js';
+import { isMachineIngestBearerToken } from '../config/bitacoraMachineIngest.js';
 import { validatePegasusSession } from '../auth/pegasusAuth.service.js';
 import {
   logAuthFailure,
@@ -32,6 +33,18 @@ export function requireAuthMiddleware(req: Request, res: Response, next: NextFun
           reason: 'authorization_header_missing_or_invalid',
         });
         res.status(401).json(authErrorBody(problem, messages[problem] ?? 'No autorizado'));
+        return;
+      }
+
+      if (isMachineIngestBearerToken(extracted.token)) {
+        logAuthSuccess({
+          requestId: req.requestId ?? 'unknown',
+          path: req.path,
+          authMode: 'machine_ingest',
+        });
+        req.pegasusAuthMode = 'machine_ingest';
+        req.pegasusToken = extracted.token;
+        next();
         return;
       }
 

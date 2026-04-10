@@ -15,6 +15,7 @@ describe('requireAuthorizationMiddleware', () => {
     process.env.PEGASUS_SITE = 'https://pegasus.example.com';
     delete process.env.PEGASUS_ALLOWED_USER_IDS;
     delete process.env.PEGASUS_ALLOWED_GROUP_IDS;
+    delete process.env.BITACORA_MACHINE_INGEST_TOKEN;
   });
 
   afterEach(() => {
@@ -56,6 +57,20 @@ describe('requireAuthorizationMiddleware', () => {
     const res = await request(app).get('/api/v1/bitacora').set('Authorization', 'Bearer tok-denied');
     expect(res.status).toBe(403);
     expect(res.body).toMatchObject({ error: 'forbidden', problem: 'app_access_denied' });
+  });
+
+  it('allows BITACORA_MACHINE_INGEST_TOKEN without Pegasus call or allowlist match', async () => {
+    process.env.PEGASUS_ALLOWED_USER_IDS = 'u-allowed';
+    process.env.BITACORA_MACHINE_INGEST_TOKEN = 'zapier-machine-bearer';
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+
+    const res = await request(app)
+      .get('/api/v1/bitacora')
+      .set('Authorization', 'Bearer zapier-machine-bearer');
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('allows user by user-id allowlist', async () => {

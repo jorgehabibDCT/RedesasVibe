@@ -46,7 +46,7 @@ export function logAuthFailure(fields: {
   requestId: string;
   path: string;
   problem: string;
-  authMode: 'bypass' | 'pegasus_http';
+  authMode: 'bypass' | 'pegasus_http' | 'machine_ingest';
   reason:
     | 'authorization_header_missing_or_invalid'
     | 'pegasus_site_unset'
@@ -64,7 +64,7 @@ export function logAuthFailure(fields: {
 export function logAuthSuccess(fields: {
   requestId: string;
   path: string;
-  authMode: 'bypass' | 'pegasus_http';
+  authMode: 'bypass' | 'pegasus_http' | 'machine_ingest';
 }): void {
   emit('info', 'auth_success', fields);
 }
@@ -86,7 +86,7 @@ export function logPegasusPrincipalSummary(fields: {
 export function logAuthorizationFailure(fields: {
   requestId: string;
   path: string;
-  authMode: 'bypass' | 'pegasus_http';
+  authMode: 'bypass' | 'pegasus_http' | 'machine_ingest';
   reason: 'principal_missing' | 'user_not_allowed' | 'group_not_allowed';
   hasUserId: boolean;
   groupCount: number;
@@ -97,7 +97,7 @@ export function logAuthorizationFailure(fields: {
 export function logAuthorizationSuccess(fields: {
   requestId: string;
   path: string;
-  authMode: 'bypass' | 'pegasus_http';
+  authMode: 'bypass' | 'pegasus_http' | 'machine_ingest';
   hasUserId: boolean;
   groupCount: number;
 }): void {

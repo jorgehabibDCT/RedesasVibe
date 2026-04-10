@@ -1,6 +1,6 @@
 # Bitácora database & ingest
 
-For **ongoing / scheduled ingestion** models (HTTP vs CLI, cron, payload contract), see **[`ongoing-ingest.md`](./ongoing-ingest.md)**.
+For **ongoing / scheduled ingestion** models (HTTP vs CLI, cron, payload contract), see **[`ongoing-ingest.md`](./ongoing-ingest.md)**. For **how the upstream source feed** (push vs poll vs file) maps to those paths, see **[`source-feed-integration.md`](./source-feed-integration.md)**.
 
 ## Why `policy_incident` is the business key
 
@@ -25,7 +25,7 @@ So: **one normalized row per incident key**, **many raw rows** over time if the 
 
 ## API
 
-- **`POST /api/v1/bitacora/ingest`** — body: canonical **`BitacoraDocument`** (same shape as spec / GET). Requires **`Authorization: Bearer`** like other protected routes. If **`BITACORA_INGEST_SECRET`** is set, also requires header **`X-Bitacora-Ingest-Secret`** (see **[`ongoing-ingest.md`](./ongoing-ingest.md)**). On success, logs **`bitacora_ingest_success`** with **`caseId`** / **`rawId`** (no token or raw payload in logs). On **403** `ingest_forbidden`, logs **`ingest_forbidden`** (never secret values).
+- **`POST /api/v1/bitacora/ingest`** — body: canonical **`BitacoraDocument`** (same shape as spec / GET). **`Authorization: Bearer`** is either Pegasus-validated (UI) or **`BITACORA_MACHINE_INGEST_TOKEN`** (automation; no Pegasus call; **[`zapier-ingest.md`](./zapier-ingest.md)**). If **`BITACORA_INGEST_SECRET`** is set, also requires header **`X-Bitacora-Ingest-Secret`**. On success, logs **`bitacora_ingest_success`** with **`caseId`** / **`rawId`** (no token or raw payload in logs). On **403** `ingest_forbidden`, logs **`ingest_forbidden`** (never secret values).
 - **`GET /api/v1/bitacora/cases`** — compact list for the SPA case switcher (`policy_incident`, `plates`, `insured_name`, `updated_at`). Query: **`limit`**, optional **`search`**. In fixture mode returns **`{ cases: [] }`**; in **`BITACORA_DATA_MODE=db`** reads from **`bitacora_cases`**.
 - **`GET /api/v1/bitacora`** — same JSON contract everywhere. **Fixture** mode: from the canonical file. **`BITACORA_DATA_MODE=db`**: from **`bitacora_cases`** (see table below). **Integration** mode: from the configured upstream.
 

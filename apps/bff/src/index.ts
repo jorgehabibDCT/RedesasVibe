@@ -19,6 +19,7 @@ const port = listenPort();
 const host = listenHost();
 const pegasusAuthDisabled = process.env.PEGASUS_AUTH_DISABLED === 'true';
 const pegasusSiteConfigured = Boolean(process.env.PEGASUS_SITE?.trim());
+const machineIngestTokenConfigured = Boolean(process.env.BITACORA_MACHINE_INGEST_TOKEN?.trim());
 const bitacoraDataMode = getBitacoraDataMode();
 
 createServer().listen(port, host, () => {
@@ -31,6 +32,7 @@ createServer().listen(port, host, () => {
       port,
       pegasusAuthMode: pegasusAuthDisabled ? 'bypass' : 'pegasus_http',
       pegasusSiteConfigured,
+      machineIngestTokenConfigured,
       bitacoraDataMode,
     }),
   );
