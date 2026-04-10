@@ -141,6 +141,7 @@ CSP alone does not authenticate users; pair with Bearer validation. **Do not** r
 - **Request:** JSON lines with `event: request_complete`, `requestId` (from **`X-Request-Id`** or generated), method, path, status, `durationMs`. **Never** logs raw bearer tokens.
 - **Auth:** `event: auth_failure` with `problem` (and `path` / `requestId`).
 - **Upstream:** `event: upstream_failure` for bitácora integration errors.
+- **Ingest:** `event: bitacora_ingest_success` after **`POST /api/v1/bitacora/ingest`** (includes `caseId`, `rawId`, `requestId`; never request bodies or tokens). **`ingest_forbidden`** when **`BITACORA_INGEST_SECRET`** is configured but the request is missing/wrong **`X-Bitacora-Ingest-Secret`** (header values are never logged).
 - **Future Sentry/APM:** `captureExceptionForObservability` / `captureMessageForObservability` in `observability/sentryHooks.ts` (no-op unless **`OBSERVABILITY_CAPTURE_EXCEPTIONS`** / **`OBSERVABILITY_CAPTURE_MESSAGES`** are enabled for stub logging). Wire **`@sentry/node`** there when ready.
 
 ### Web client analytics (later)
@@ -343,7 +344,7 @@ See `.env.example` (auth, Pegasus cache, CORS, security headers, observability s
 
 ## Bitácora database (optional ingest)
 
-PostgreSQL schema and **`POST /api/v1/bitacora/ingest`** are documented in [`docs/bitacora-db.md`](docs/bitacora-db.md). **`GET /api/v1/bitacora`** is unchanged and does not read from the database.
+PostgreSQL schema and **`POST /api/v1/bitacora/ingest`** are documented in [`docs/bitacora-db.md`](docs/bitacora-db.md). **Ongoing ingestion** (cron, upstream push, CLI batch tradeoffs): [`docs/ongoing-ingest.md`](docs/ongoing-ingest.md). **`GET /api/v1/bitacora`** is unchanged and does not read from the database.
 
 ## Fixtures
 

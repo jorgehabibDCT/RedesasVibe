@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { logAuthFailure, logAuthSuccess, logRequestComplete } from './log.js';
+import { logAuthFailure, logAuthSuccess, logBitacoraIngestSuccess, logRequestComplete } from './log.js';
 
 describe('structured logging', () => {
   afterEach(() => {
@@ -36,6 +36,21 @@ describe('structured logging', () => {
     expect(line).toContain('"event":"auth_success"');
     expect(line).toContain('"authMode":"pegasus_http"');
     expect(line).not.toMatch(/Bearer/i);
+  });
+
+  it('logBitacoraIngestSuccess emits ids without bodies or tokens', () => {
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    logBitacoraIngestSuccess({
+      requestId: 'r-ingest',
+      path: '/bitacora/ingest',
+      caseId: 'case-uuid',
+      rawId: 'raw-uuid',
+    });
+    const line = spy.mock.calls[0][0] as string;
+    expect(line).toContain('"event":"bitacora_ingest_success"');
+    expect(line).toContain('"caseId":"case-uuid"');
+    expect(line).not.toMatch(/Bearer/i);
+    expect(line).not.toContain('payload');
   });
 
   it('logRequestComplete never includes Authorization', () => {

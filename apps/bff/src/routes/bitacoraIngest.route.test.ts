@@ -1,7 +1,7 @@
 import type { BitacoraDocument } from '@redesas-lite/shared';
 import { normalizeBitacoraDocumentToCaseRow } from '@redesas-lite/shared';
 import request from 'supertest';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createServer } from '../server.js';
 
 process.env.PEGASUS_AUTH_DISABLED = 'true';
@@ -30,6 +30,16 @@ const sample: BitacoraDocument = {
 };
 
 describe('POST /api/v1/bitacora/ingest', () => {
+  const originalIngestSecret = process.env.BITACORA_INGEST_SECRET;
+
+  afterEach(() => {
+    if (originalIngestSecret === undefined) {
+      delete process.env.BITACORA_INGEST_SECRET;
+    } else {
+      process.env.BITACORA_INGEST_SECRET = originalIngestSecret;
+    }
+  });
+
   it('returns 503 when ingest service not configured', async () => {
     const app = createServer({ bitacoraIngestService: null });
     const res = await request(app)
@@ -63,6 +73,48 @@ describe('POST /api/v1/bitacora/ingest', () => {
       .send({ foo: 1 });
     expect(res.status).toBe(400);
     expect(ingest.ingestCanonicalDocument).not.toHaveBeenCalled();
+  });
+
+  it('returns 403 ingest_forbidden when BITACORA_INGEST_SECRET is set and header is missing', async () => {
+    process.env.BITACORA_INGEST_SECRET = 'expected-secret';
+    const ingest = { ingestCanonicalDocument: vi.fn() };
+    const app = createServer({ bitacoraIngestService: ingest });
+    const res = await request(app)
+      .post('/api/v1/bitacora/ingest')
+      .set('Authorization', 'Bearer t')
+      .send(sample);
+    expect(res.status).toBe(403);
+    expect(res.body.error).toBe('ingest_forbidden');
+    expect(ingest.ingestCanonicalDocument).not.toHaveBeenCalled();
+  });
+
+  it('returns 403 when ingest secret header does not match', async () => {
+    process.env.BITACORA_INGEST_SECRET = 'expected-secret';
+    const ingest = { ingestCanonicalDocument: vi.fn() };
+    const app = createServer({ bitacoraIngestService: ingest });
+    const res = await request(app)
+      .post('/api/v1/bitacora/ingest')
+      .set('Authorization', 'Bearer t')
+      .set('X-Bitacora-Ingest-Secret', 'wrong')
+      .send(sample);
+    expect(res.status).toBe(403);
+    expect(res.body.error).toBe('ingest_forbidden');
+    expect(ingest.ingestCanonicalDocument).not.toHaveBeenCalled();
+  });
+
+  it('returns 201 when ingest secret header matches', async () => {
+    process.env.BITACORA_INGEST_SECRET = 'expected-secret';
+    const ingest = {
+      ingestCanonicalDocument: vi.fn().mockResolvedValue({ caseId: '10', rawId: '20' }),
+    };
+    const app = createServer({ bitacoraIngestService: ingest });
+    const res = await request(app)
+      .post('/api/v1/bitacora/ingest')
+      .set('Authorization', 'Bearer t')
+      .set('X-Bitacora-Ingest-Secret', 'expected-secret')
+      .send(sample);
+    expect(res.status).toBe(201);
+    expect(ingest.ingestCanonicalDocument).toHaveBeenCalledOnce();
   });
 
   it('returns 400 when policy_incident missing', async () => {

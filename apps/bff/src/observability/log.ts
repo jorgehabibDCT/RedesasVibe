@@ -119,3 +119,18 @@ export function logUpstreamFailure(fields: {
 export function logCorsBlocked(fields: { requestId: string }): void {
   emit('warn', 'cors_blocked', fields);
 }
+
+/** Ingest success — DB ids only; never log bearer tokens or request bodies. */
+export function logBitacoraIngestSuccess(fields: {
+  requestId: string;
+  path: string;
+  caseId: string;
+  rawId: string;
+}): void {
+  emit('info', 'bitacora_ingest_success', fields);
+}
+
+/** Missing/wrong ingest secret — never log header values. */
+export function logBitacoraIngestForbidden(fields: { requestId: string; path: string }): void {
+  emit('warn', 'ingest_forbidden', fields);
+}

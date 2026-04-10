@@ -7,10 +7,15 @@ import {
   BitacoraDbUnavailableError,
 } from '../bitacora/bitacoraDbErrors.js';
 import { getBitacoraDataMode } from '../config/bitacoraDataMode.js';
+import { isBitacoraIngestSecretValid } from '../config/bitacoraIngestSecret.js';
 import { listCasesCompact } from '../db/bitacoraCaseReadRepository.js';
 import { getPool } from '../db/pool.js';
 import type { BitacoraIngestService } from '../db/bitacoraIngestService.js';
-import { logUpstreamFailure } from '../observability/log.js';
+import {
+  logBitacoraIngestForbidden,
+  logBitacoraIngestSuccess,
+  logUpstreamFailure,
+} from '../observability/log.js';
 import { captureExceptionForObservability } from '../observability/sentryHooks.js';
 import { UpstreamFetchError, UpstreamNormalizeError } from '../upstream/upstreamErrors.js';
 
@@ -123,13 +128,23 @@ export function bitacoraRouter(
 
   /**
    * Persist canonical document: raw JSON row + upsert normalized case on `policy_incident`.
-   * Requires `DATABASE_URL` (ingest service); same auth as GET /bitacora.
+   * Requires `DATABASE_URL` (ingest service); same Bearer auth + app allowlists as GET /bitacora.
+   * When **`BITACORA_INGEST_SECRET`** is set, also requires header **`X-Bitacora-Ingest-Secret`**.
    */
   r.post('/bitacora/ingest', async (req: Request, res: Response) => {
     if (!opts?.ingest) {
       res.status(503).json({
         error: 'ingest_unavailable',
         message: 'Ingest requires DATABASE_URL',
+      });
+      return;
+    }
+
+    if (!isBitacoraIngestSecretValid(req)) {
+      logBitacoraIngestForbidden({ requestId: req.requestId ?? 'unknown', path: req.path });
+      res.status(403).json({
+        error: 'ingest_forbidden',
+        message: 'Ingest not permitted for this caller',
       });
       return;
     }
@@ -152,6 +167,12 @@ export function bitacoraRouter(
     try {
       const doc = body as BitacoraDocument;
       const result = await opts.ingest.ingestCanonicalDocument(doc);
+      logBitacoraIngestSuccess({
+        requestId: req.requestId ?? 'unknown',
+        path: req.path,
+        caseId: result.caseId,
+        rawId: result.rawId,
+      });
       res.status(201).json({ ok: true, caseId: result.caseId, rawId: result.rawId });
     } catch (e) {
       if (e instanceof Error && e.name === 'IngestValidationError') {
