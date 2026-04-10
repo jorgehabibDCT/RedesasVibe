@@ -1,4 +1,5 @@
 import type { OperatorMetaPayload } from '../../lib/api/fetchOperatorMeta.js';
+import { OperatorJoinProofPanel } from './OperatorJoinProofPanel.js';
 
 function yn(v: boolean): string {
   return v ? 'Sí' : 'No';
@@ -49,6 +50,7 @@ export function OperatorObservability({ meta }: { meta: OperatorMetaPayload }) {
           </>
         ) : null}
       </dl>
+      <OperatorJoinProofPanel policyIncident={meta.policyIncident} />
     </section>
   );
 }

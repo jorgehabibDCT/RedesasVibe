@@ -18,6 +18,7 @@ import {
   logUpstreamFailure,
 } from '../observability/log.js';
 import { captureExceptionForObservability } from '../observability/sentryHooks.js';
+import { handleOperatorJoinProof } from './operatorJoinProofHandler.js';
 import { UpstreamFetchError, UpstreamNormalizeError } from '../upstream/upstreamErrors.js';
 
 export function bitacoraRouter(
@@ -140,6 +141,13 @@ export function bitacoraRouter(
       caseUpdatedAt: null,
       documentEnv: null,
     });
+  });
+
+  /**
+   * Operator-only join proof (**`/devices/{imei}`** vs **`/user/resources.vehicles`**). Not enforcement.
+   */
+  r.get('/bitacora/operator-join-proof', (req: Request, res: Response) => {
+    void handleOperatorJoinProof(req, res, service);
   });
 
   /**
