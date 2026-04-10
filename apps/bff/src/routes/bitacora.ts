@@ -6,6 +6,7 @@ import {
   BitacoraDbNotFoundError,
   BitacoraDbUnavailableError,
 } from '../bitacora/bitacoraDbErrors.js';
+import { pegasusIdentityForOperatorMeta } from '../bitacora/operatorMetaPegasusIdentity.js';
 import { getBitacoraDataMode } from '../config/bitacoraDataMode.js';
 import { isBitacoraIngestSecretValid } from '../config/bitacoraIngestSecret.js';
 import { getCaseOperatorMeta, listCasesCompact } from '../db/bitacoraCaseReadRepository.js';
@@ -80,6 +81,7 @@ export function bitacoraRouter(
 
     const mode = getBitacoraDataMode();
     const pegasusAuthMode = req.pegasusAuthMode ?? 'pegasus_http';
+    const pegasusIdentity = pegasusIdentityForOperatorMeta(req.pegasusPrincipal);
     const rawPolicy = req.query.policy_incident;
     const policyIncident =
       typeof rawPolicy === 'string' && rawPolicy.trim() !== ''
@@ -100,6 +102,7 @@ export function bitacoraRouter(
           res.json({
             bitacoraDataMode: mode,
             pegasusAuthMode,
+            pegasusIdentity,
             policyIncident: policyIncident ?? null,
             caseId: null,
             latestRawId: null,
@@ -111,6 +114,7 @@ export function bitacoraRouter(
         res.json({
           bitacoraDataMode: mode,
           pegasusAuthMode,
+          pegasusIdentity,
           policyIncident: row.policyIncident,
           caseId: row.caseId,
           latestRawId: row.latestRawId,
@@ -129,6 +133,7 @@ export function bitacoraRouter(
     res.json({
       bitacoraDataMode: mode,
       pegasusAuthMode,
+      pegasusIdentity,
       policyIncident: policyIncident ?? null,
       caseId: null,
       latestRawId: null,

@@ -72,6 +72,10 @@ describe('GET /api/v1/bitacora/operator-meta', () => {
     expect(res.body).toMatchObject({
       bitacoraDataMode: 'fixture',
       pegasusAuthMode: 'pegasus_http',
+      pegasusIdentity: {
+        loginUserId: 'u-op',
+        resources: { id: null, username: null, email: null, isStaff: false, isSuperuser: false },
+      },
     });
     expect(res.body.caseId).toBeNull();
   });
@@ -79,12 +83,31 @@ describe('GET /api/v1/bitacora/operator-meta', () => {
   it('returns 200 when is_staff from /user/resources and operator env lists are unset', async () => {
     delete process.env.PEGASUS_OPERATOR_USER_IDS;
     delete process.env.PEGASUS_OPERATOR_GROUP_IDS;
-    stubPegasusLoginThenResources({ user_id: 'u-staff' }, { is_staff: true, is_superuser: false });
+    stubPegasusLoginThenResources(
+      { user_id: 'u-staff' },
+      {
+        id: 501,
+        username: 'staff.user',
+        email: 'staff@example.com',
+        is_staff: true,
+        is_superuser: false,
+      },
+    );
 
     const res = await request(app)
       .get('/api/v1/bitacora/operator-meta')
       .set('Authorization', 'Bearer tok-staff');
     expect(res.status).toBe(200);
+    expect(res.body.pegasusIdentity).toEqual({
+      loginUserId: 'u-staff',
+      resources: {
+        id: '501',
+        username: 'staff.user',
+        email: 'staff@example.com',
+        isStaff: true,
+        isSuperuser: false,
+      },
+    });
   });
 
   it('returns 404 when /user/resources fails after login (no env operator lists)', async () => {

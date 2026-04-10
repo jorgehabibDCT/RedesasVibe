@@ -71,6 +71,21 @@ h2 {
   border-left: 3px solid #5c6e8c;
 }
 
+.operator-obs__subhead {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555;
+  margin: 1rem 0 0.5rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid #e2e4e8;
+}
+
+.operator-obs__subhead:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
 .section__title-secondary {
   font-size: 0.95rem;
   font-weight: 600;

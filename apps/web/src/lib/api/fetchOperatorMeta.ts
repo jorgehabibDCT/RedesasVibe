@@ -1,10 +1,25 @@
 import { getBearerToken } from '../auth/memoryToken.js';
 import { apiUrl } from './apiBaseUrl.js';
 
+/** Subset of Pegasus principal for operator UI (no tokens or raw API payloads). */
+export interface OperatorMetaPegasusIdentity {
+  /** From **`/api/login`** body or configured identity headers. */
+  loginUserId: string | null;
+  /** From **`/user/resources`** when enrichment succeeded; otherwise **`null`**. */
+  resources: {
+    id: string | null;
+    username: string | null;
+    email: string | null;
+    isStaff: boolean;
+    isSuperuser: boolean;
+  } | null;
+}
+
 /** Response from **`GET /api/v1/bitacora/operator-meta`** (operators only). */
 export interface OperatorMetaPayload {
   bitacoraDataMode: string;
   pegasusAuthMode: string;
+  pegasusIdentity: OperatorMetaPegasusIdentity;
   policyIncident: string | null;
   caseId: string | null;
   latestRawId: string | null;
