@@ -14,6 +14,7 @@ import {
 import { formatInsuredAmountMxn } from './currency.js';
 import { formatPolicyDate, parsePolicyDate } from './dates.js';
 import {
+  formatBitacoraResultStatusLabel,
   hasVinPlatesConflict,
   resolveDeviceIdDisplay,
   resolvePlatesResolution,
@@ -117,6 +118,21 @@ describe('contacts', () => {
     const rows = buildContactRows(doc);
     expect(rows.some((r) => r.role.includes('Reporter'))).toBe(true);
     expect(rows.some((r) => r.role === 'Conductor')).toBe(true);
+  });
+});
+
+describe('formatBitacoraResultStatusLabel', () => {
+  it('maps common API status codes to Spanish', () => {
+    expect(formatBitacoraResultStatusLabel(undefined)).toBe('—');
+    expect(formatBitacoraResultStatusLabel('')).toBe('—');
+    expect(formatBitacoraResultStatusLabel('success')).toBe('Exitoso');
+    expect(formatBitacoraResultStatusLabel('SUCCESS')).toBe('Exitoso');
+    expect(formatBitacoraResultStatusLabel('error')).toBe('Error');
+    expect(formatBitacoraResultStatusLabel('pending')).toBe('Pendiente');
+  });
+
+  it('passes through unknown status strings', () => {
+    expect(formatBitacoraResultStatusLabel('custom_state')).toBe('custom_state');
   });
 });
 

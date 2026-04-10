@@ -50,8 +50,8 @@ export function CaseSwitcher({
           <p className="case-switcher__hint muted">Cargando lista…</p>
         ) : cases.length === 0 ? (
           <p className="case-switcher__hint muted">
-            No hay casos listados. En modo fixture la lista está vacía; en modo base de datos importe
-            datos o ajuste la búsqueda.
+            No hay expedientes en la lista. Pruebe otra búsqueda o confirme que existan casos
+            cargados.
           </p>
         ) : (
           <select

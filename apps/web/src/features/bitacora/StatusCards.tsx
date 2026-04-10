@@ -1,9 +1,9 @@
 import type { BitacoraDocument } from '@redesas-lite/shared';
 import {
+  formatBitacoraResultStatusLabel,
   isResultFailure,
   mapRegistrationStatusLabel,
   resultMessageOrFallback,
-  trimOrEmpty,
 } from '@redesas-lite/shared';
 
 export function StatusCards({ doc }: { doc: BitacoraDocument }) {
@@ -17,7 +17,7 @@ export function StatusCards({ doc }: { doc: BitacoraDocument }) {
     <div className={`cards ${failure ? 'cards--fail' : ''}`}>
       <article className="card">
         <h3>Estado de la operación</h3>
-        <p className="card-value">{statusOuter ? trimOrEmpty(statusOuter) : '—'}</p>
+        <p className="card-value">{formatBitacoraResultStatusLabel(statusOuter)}</p>
       </article>
       <article className="card">
         <h3>Registro exitoso</h3>

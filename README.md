@@ -1,7 +1,8 @@
 # Bitácora de Siniestro REDESAS LITE (monorepo)
 
-Fixture-driven prototype: **React** SPA + **Express** BFF + **`@redesas-lite/shared`** pure helpers.  
-Source of truth: `spec.md` v0.3, `plan.md`, `reference-findings.md`, `copy-vs-dont-copy.md`.
+**React** SPA + **Express** BFF + **`@redesas-lite/shared`**. Deployed environments typically use **Pegasus** session validation on the BFF, optional **app-level allowlists**, and **fixture**, **database**, or **integration** modes for bitácora data.  
+
+Specification and product notes: `spec.md` v0.3, `plan.md`, `reference-findings.md`, `copy-vs-dont-copy.md`.
 
 ## Stack
 
@@ -18,9 +19,9 @@ Source of truth: `spec.md` v0.3, `plan.md`, `reference-findings.md`, `copy-vs-do
 2. The **SPA** parses with `URLSearchParams` (no narrow regex), prefers **`access_token`** when both are present, keeps the token **only in memory**, and **strips** the used query param(s) from the URL via `history.replaceState` when present.
 3. Every **`GET /api/v1/bitacora`** request sends **`Authorization: Bearer <opaque token>`**.
 4. The **BFF** runs **`requireAuthMiddleware`**: extracts Bearer, validates **opaque token shape**, then calls **`validatePegasusSession`** in `pegasusAuth.service.ts`.
-5. **What is real vs stubbed today**
-   - **Real:** Bearer extraction, shape checks, structured **`401`** JSON with `{ message, problem }` (stable codes: `missing_token`, `malformed_auth_header`, `invalid_token`, `token_expired`, `auth_unavailable`), **bounded Pegasus validation cache** (SHA-256 keyed; configurable TTLs), explicit **CORS** allowlist, production-oriented **security headers** (see Phase 4 below).
-   - **Stubbed / dev:** With **`PEGASUS_AUTH_DISABLED=true`** (default in `.env.example`), the BFF **does not** call Pegasus HTTP. Set **`PEGASUS_AUTH_DISABLED=false`** and **`PEGASUS_SITE`** to enable **`GET ${PEGASUS_SITE}/api/login?auth=`** with timeout and HTTP status mapping (`pegasusAuth.service.ts`).
+5. **Production vs local development**
+   - **Production (typical):** **`PEGASUS_AUTH_DISABLED=false`** and **`PEGASUS_SITE`** set — the BFF validates tokens with **`GET ${PEGASUS_SITE}/api/login?auth=`** (timeout, cache, structured **`401`** JSON with stable `problem` codes: `missing_token`, `malformed_auth_header`, `invalid_token`, `token_expired`, `auth_unavailable`). Also: **CORS** allowlist, **security headers**, optional **app-level allowlists** after auth (see below).
+   - **Local development:** **`PEGASUS_AUTH_DISABLED=true`** (default in `.env.example`) skips the Pegasus HTTP call so you can run the UI without a reachable Pegasus host.
 6. **Without a token**, the SPA shows a **standalone / degraded** message (`EmbedStandalone`) and **does not** call the BFF. This is UX only; enforcement is **BFF validation + CSP** where deployed.
 7. **401 from BFF:** the client **clears** the in-memory token and surfaces the error (aligned with qualitas-style `problem` handling).
 
@@ -85,7 +86,7 @@ BFF logs authorization events as structured `authorization_success` / `authoriza
 
 Disable principal summary lines after cutover if desired: set **`PEGASUS_PRINCIPAL_SUMMARY_LOG=false`** (defaults to on when unset).
 
-### Real-auth smoke test (cutover)
+### Verifying Pegasus auth in production
 
 When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
 
@@ -102,15 +103,15 @@ When `PEGASUS_AUTH_DISABLED=false` and `PEGASUS_SITE` is configured:
    - Invalid/expired token -> banner with session-expired/invalid copy.
    - Pegasus unavailable -> banner indicating validation is temporarily unavailable.
 
-**Recommended first attempt on Render (auth-only isolation):**
+**Example Render env when isolating auth (fixture data):**
 
 - `PEGASUS_AUTH_DISABLED=false`
 - `PEGASUS_SITE=https://<pegasus-base-host>`
-- `BITACORA_DATA_MODE=fixture` (keep data source stable while validating auth cutover)
+- `BITACORA_DATA_MODE=fixture` (predictable sample data while validating auth)
 - `DATABASE_URL` unset (not used in fixture mode)
 - `CORS_ORIGINS=https://<your-vercel-app-domain>[,https://<preview-domain>]`
 
-After auth works end-to-end, switch `BITACORA_DATA_MODE`/`DATABASE_URL` per your db/integration runbook.
+After auth is stable, set `BITACORA_DATA_MODE` / `DATABASE_URL` per **`docs/bitacora-db.md`** and your integration runbook.
 
 ## CSP / `frame-ancestors` (where headers apply)
 
@@ -222,7 +223,7 @@ Shortcut: **`npm run demo:bff`** in terminal 1 and **`npm run demo:web`** in ter
 
 **Backup if auth or integration misbehaves:** keep **`PEGASUS_AUTH_DISABLED=true`** and **`BITACORA_DATA_MODE=fixture`**; confirm **`GET /ready`** returns **200** (fixture readable). If the upstream is misconfigured but you only need the UI, avoid **`BITACORA_DATA_MODE=integration`** for the demo.
 
-**Intentionally not demoed in this prototype:** live Pegasus token validation, upstream bitácora integration, **última posición** / map (empty state by design per spec), OAuth redirects, and production CSP/HSTS at the edge.
+The **local demo** path above does not exercise live Pegasus validation or upstream integration; **última posición** remains an empty state by design (spec); OAuth redirects and edge CSP/HSTS are outside this app’s scope.
 
 ## Bitácora data: fixture, database, or integration (Phase 3)
 

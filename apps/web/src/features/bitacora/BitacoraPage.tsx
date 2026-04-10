@@ -103,8 +103,8 @@ export function BitacoraPage() {
 
   if (phase === 'loading') {
     return (
-      <div className="page">
-        <p className="muted">Cargando información…</p>
+      <div className="page" aria-busy="true" aria-live="polite">
+        <p className="muted">Cargando expediente…</p>
       </div>
     );
   }
@@ -117,8 +117,8 @@ export function BitacoraPage() {
     return (
       <div className="page">
         <div className="banner error" role="alert">
-          <div className="banner__title">No se pudo cargar la información</div>
-          <p className="banner__detail">{error ?? 'Intente de nuevo más tarde.'}</p>
+          <div className="banner__title">No se pudo mostrar el expediente</div>
+          <p className="banner__detail">{error ?? 'Intente de nuevo en unos momentos.'}</p>
         </div>
       </div>
     );

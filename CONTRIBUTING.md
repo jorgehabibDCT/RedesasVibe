@@ -62,7 +62,7 @@ npm test
 
 ## Production checklist (short)
 
-See **README → Production readiness checklist**. In particular: set **`CORS_ORIGINS`** and **`FRAME_ANCESTORS`** for real hosts, disable **`PEGASUS_AUTH_DISABLED`** with a real **`PEGASUS_SITE`**, and terminate TLS (HSTS at edge). Do not log bearer tokens; rely on BFF structured logs + future Sentry wiring in `apps/bff/src/observability/sentryHooks.ts`.
+See **README → Production readiness checklist**. In particular: set **`CORS_ORIGINS`** and **`FRAME_ANCESTORS`** for real hosts, **`PEGASUS_AUTH_DISABLED=false`** with **`PEGASUS_SITE`** for live Pegasus validation, and terminate TLS (HSTS at edge). Do not log bearer tokens; rely on BFF structured logs and optional Sentry hooks in `apps/bff/src/observability/sentryHooks.ts`.
 
 ## Code review checklist (informal)
 

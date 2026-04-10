@@ -84,6 +84,21 @@ export function mapRegistrationStatusLabel(status: string | undefined): string {
   return s;
 }
 
+/**
+ * Maps API `result.status` codes to short Spanish labels (avoids raw English like `success` in the UI).
+ */
+export function formatBitacoraResultStatusLabel(status: string | undefined): string {
+  const s = trimOrEmpty(status);
+  if (!s) return '—';
+  const k = s.toLowerCase();
+  if (k === 'success') return 'Exitoso';
+  if (k === 'error') return 'Error';
+  if (k === 'failed' || k === 'failure') return 'Fallido';
+  if (k === 'pending') return 'Pendiente';
+  if (k === 'cancelled' || k === 'canceled') return 'Cancelado';
+  return s;
+}
+
 export function mapEnvLabel(env: string | undefined): string {
   const e = trimOrEmpty(env).toLowerCase();
   if (e === 'production') return 'Producción';

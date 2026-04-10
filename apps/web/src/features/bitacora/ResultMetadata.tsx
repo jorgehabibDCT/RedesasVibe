@@ -1,5 +1,9 @@
 import type { BitacoraDocument } from '@redesas-lite/shared';
-import { mapEnvLabel, resultMessageOrFallback, trimOrEmpty } from '@redesas-lite/shared';
+import {
+  formatBitacoraResultStatusLabel,
+  mapEnvLabel,
+  resultMessageOrFallback,
+} from '@redesas-lite/shared';
 
 export function ResultMetadata({ doc }: { doc: BitacoraDocument }) {
   const success = doc.result?.result?.success;
@@ -15,7 +19,7 @@ export function ResultMetadata({ doc }: { doc: BitacoraDocument }) {
       <dt>Resultado en sistema</dt>
       <dd>{success === undefined ? '—' : success ? 'Sí' : 'No'}</dd>
       <dt>Estado general</dt>
-      <dd>{outer ? trimOrEmpty(outer) : '—'}</dd>
+      <dd>{formatBitacoraResultStatusLabel(outer)}</dd>
       <dt>Entorno</dt>
       <dd>{envDisplay}</dd>
     </dl>
